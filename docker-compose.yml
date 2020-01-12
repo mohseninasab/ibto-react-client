@@ -1,0 +1,24 @@
+version: '3'
+
+networks:
+  web:
+    external: true
+
+services:
+
+  at-client:
+    container_name: at-client
+    restart: always
+    build: .
+    environment:
+      - REACT_APP_API_ADDRESS=https://api.asantransfer.ir
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.at-client.rule=Host(`panel.asantransfer.ir`)"
+      - "traefik.http.routers.at-client-https.rule=Host(`panel.asantransfer.ir`)"
+      - "traefik.http.routers.at-client-https.tls=true"
+      - "traefik.http.routers.at-client-https.tls.certresolver=futechresolver"
+      - "traefik.http.routers.at-client.middlewares=redirect-to-https"
+
+    networks:
+      - web

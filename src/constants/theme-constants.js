@@ -1,0 +1,4 @@
+export const themeConstants = {
+  THEME_SWITCH_DARK: 'THEME_SWITCH_DARK',
+  THEME_SWITCH_LIGHT: 'THEME_SWITCH_LIGHT',
+};

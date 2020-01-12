@@ -1,0 +1,25 @@
+version: '3'
+
+networks:
+  web:
+    external: true
+
+services:
+
+  at-client-test:
+    container_name: at-client-test
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile-test
+      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.at-client-test.rule=Host(`panel.at.fudevgroup.ir`)"
+      - "traefik.http.routers.at-client-test-https.rule=Host(`panel.at.fudevgroup.ir`)"
+      - "traefik.http.routers.at-client-test-https.tls=true"
+      - "traefik.http.routers.at-client-test-https.tls.certresolver=futechresolver"
+      - "traefik.http.routers.at-client-test.middlewares=redirect-to-https"
+
+    networks:
+      - web

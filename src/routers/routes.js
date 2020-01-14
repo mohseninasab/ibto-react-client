@@ -21,14 +21,19 @@ export default [
         exact: false,
       },
       {
+        layout: lazy(() => import("pages/admin-dashboard/subjects-page")),
+        path: '/admin-dashboard/subjects',
+        label: 'Transaction Page',
+        title: 'Transaction Page',
+        exact: false,
+      },
+      {
         layout: lazy(() => import("components/error-pages/error-page")),
         path: '/admin-dashboard/',
         label: 'Error Page',
         title: 'Error Page',
         exact: false,
       },
-      
-      
     ]
   },
   {

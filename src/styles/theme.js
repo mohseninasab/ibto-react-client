@@ -105,7 +105,8 @@ const LightTheme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        fontSize: "0.7rem",
+        fontSize: "0.75rem",
+        padding: "5px 15px",
         height: "fit-content",
       },
       label: {
@@ -382,7 +383,8 @@ const darkTheme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        fontSize: "0.7rem",
+        fontSize: "0.75rem",
+        padding: "5px 15px",
         height: "fit-content",
       },
       label: {

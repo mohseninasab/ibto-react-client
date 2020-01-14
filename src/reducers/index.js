@@ -8,6 +8,7 @@ import { progress } from "./progress-reducer";
 import { snackbar } from "./snackbar-reducer";
 import { donations } from "./donations-reducer";
 import { offices } from "./offices-reducer";
+import { subjects } from "./subjects-reducer"
 
 
 // #############################################################################
@@ -23,6 +24,7 @@ const appReducer = combineReducers({
   snackbar,
   donations,
   offices,
+  subjects,
 });
 
 // #############################################################################

@@ -73,7 +73,7 @@ export function SideBar(props){
           selected={selectedRoute === '/admin-dashboard/offices'}
         >
           <ListItemIcon className={classes.iconColor} ><AccountBalanceIcon/></ListItemIcon>
-          <ListItemText primary={adminDashboardSideBarOffices} />
+          <ListItemText className={classes.text} primary={adminDashboardSideBarOffices} />
         </ListItem>
 
         <ListItem
@@ -84,7 +84,7 @@ export function SideBar(props){
           selected={selectedRoute === '/admin-dashboard/subjects'}
         >
           <ListItemIcon className={classes.iconColor} ><EmojiPeopleIcon/></ListItemIcon>
-          <ListItemText primary={adminDashboardSideBarSubjects} />
+          <ListItemText className={classes.text} primary={adminDashboardSideBarSubjects} />
         </ListItem>
 
         <ListItem
@@ -95,7 +95,7 @@ export function SideBar(props){
           selected={selectedRoute === '/admin-dashboard/Staff'}
         >
           <ListItemIcon className={classes.iconColor} ><PeopleIcon/></ListItemIcon>
-          <ListItemText primary={adminDashboardSideBarStaff} />
+          <ListItemText className={classes.text} primary={adminDashboardSideBarStaff} />
         </ListItem>
 
         <ListItem
@@ -105,8 +105,8 @@ export function SideBar(props){
           onClick={handleRouting("/admin-dashboard/transaction-requests")}
           selected={selectedRoute === '/admin-dashboard/transaction-requests'}
         >
-          <ListItemIcon className={classes.iconColor} ><FavoriteIcon/></ListItemIcon>
-          <ListItemText primary={adminDashboardSideBarBloodDonations} />
+          <ListItemIcon className={classes.iconColor} ><FavoriteIcon classes={{root: classes.red}}/></ListItemIcon>
+          <ListItemText className={classes.text} primary={adminDashboardSideBarBloodDonations} />
         </ListItem>
         
       </List>
@@ -173,6 +173,14 @@ const useStyles = makeStyles(theme => ({
       flexShrink: 0,
     },
   },
+  red:{
+    color: "#FF6B00",
+  },
+  text:{
+    "& > span":{
+      fontSize: "0.85rem"  
+    }
+  },
   toolbar:{
     width: "100%",
     height: 56,
@@ -202,6 +210,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white
   },
   itemButton:{
-    minHeight: 60,
+    minHeight: 45,
   }
 }));

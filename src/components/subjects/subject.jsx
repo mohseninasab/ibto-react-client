@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { strings } from '../../constants';
-import { OfficeForm } from "./"
+import { SubjectForm } from "./"
 import { useSelector } from "react-redux"
 
 import { makeStyles } from "@material-ui/core";
@@ -12,8 +12,8 @@ import Typography from "@material-ui/core/Typography"
 // component
 // #############################################################################
 
-export default function Office(props){
-  const { office = {} } = props;
+export default function Subject(props){
+  const { subject = {} } = props;
   const language = useSelector(state => state.language);
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
@@ -50,23 +50,27 @@ export default function Office(props){
       <Grid container item className={classes.root}>
 
         <Grid container alignItems="center" item xs={12} md={1} lg={1} className={classes.items}>
-          <Typography variant="inherit" color="primary" noWrap>{office.id}</Typography>
+          <Typography variant="inherit" color="primary" noWrap>{subject.id}</Typography>
         </Grid>
 
         <Grid container alignItems="center" item xs={12} md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" noWrap>{office.name}</Typography>
+          <Typography variant="inherit" noWrap>{`${subject.firstName} ${subject.lastName}`}</Typography>
+        </Grid>
+
+        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+          <Typography variant="inherit" color="secondary" noWrap>{subject.bloodType}</Typography>
         </Grid>
 
         <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" color="secondary" noWrap>{office.phoneNumber}</Typography>
+          <Typography variant="inherit" color="secondary" noWrap>{subject.phoneNumber}</Typography>
         </Grid>
 
-        <Grid container alignItems="center" item xs={12} md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" noWrap>{office.city}</Typography>
+        <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
+          <Typography variant="inherit" noWrap>{subject.nationalCode}</Typography>
         </Grid>
 
-        <Grid container alignItems="center" item xs={12}  md={4} lg={4} className={classes.items}>
-          <Typography variant="inherit" noWrap>{office.address}</Typography>
+        <Grid container alignItems="center" item xs={12}  md={3} lg={3} className={classes.items}>
+          <Typography variant="inherit" noWrap>{`${subject.city} - ${subject.address}`}</Typography>
         </Grid>
 
         <Grid container alignItems="center" justify="flex-end" item xs={12} md={1} lg={1} className={classes.items}>
@@ -76,9 +80,9 @@ export default function Office(props){
         </Grid>
 
         {editMode && 
-          <OfficeForm
+          <SubjectForm
             open={editMode}
-            office={office}
+            subject={subject}
             closeForm={closeForm}
           />
         }
@@ -122,5 +126,5 @@ const useStyles = makeStyles(theme => ({
 // export the function component
 // #############################################################################
 
-export  { Office };
+export  { Subject };
 

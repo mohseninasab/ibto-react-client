@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import { strings } from '../../constants';
 import { useSelector, useDispatch } from "react-redux";
-import { Office } from "./office";
+import { Subject } from "./subject";
 import { baseActions } from "actions"
 import { useFormInput } from "common-component-methods"
 import TextField from "@material-ui/core/TextField"
-import { OfficeAddForm } from "./"
+import { SubjectAddForm } from "./"
 
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -14,11 +14,11 @@ import Grid from "@material-ui/core/Grid";
 // component
 // #############################################################################
 
-export function Offices(props){
+export function Subjects(props){
   const classes = useStyles();
   const language = useSelector(state => state.language);
   const dispatch = useDispatch();
-  const offices = useSelector(state => state.offices);
+  const subjects = useSelector(state => state.subjects);
   const searchQuery = useFormInput("");
 
   // ###########################################################################
@@ -26,11 +26,12 @@ export function Offices(props){
   // ###########################################################################
 
   const {
-    OfficesId,
-    OfficesName,
-    OfficesCity,
-    OfficesPhoneNumber,
-    OfficesAddress,
+    SubjectId,
+    SubjectName,
+    SubjectBloodType,
+    SubjectPhoneNumber,
+    SubjectNationalCode,
+    SubjectAddress,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -38,7 +39,7 @@ export function Offices(props){
   // ###########################################################################
 
   useEffect(() => {
-    dispatch(baseActions.getOffices());
+    dispatch(baseActions.getSubjects());
   },[dispatch])
 
   // ###########################################################################
@@ -61,7 +62,7 @@ export function Offices(props){
   // ###########################################################################
 
 
-  const filteredOffices = filterArray(offices, ["city", "address", "phoneNumber"], searchQuery.value);
+  const filteredSubjects = filterArray(subjects, ["firstName", "lastName", "city", "bloodType", "nationalCode", "address"], searchQuery.value);
 
   // ###########################################################################
   // render
@@ -81,24 +82,25 @@ export function Offices(props){
       />
       
       <Grid container alignItems="center" className={classes.header}>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{OfficesId}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{OfficesName}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{OfficesPhoneNumber}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{OfficesCity}</Grid>
-        <Grid item xs={12} md={4} lg={4} className={classes.items}>{OfficesAddress}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{SubjectId}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectName}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{SubjectBloodType}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectPhoneNumber}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectNationalCode}</Grid>
+        <Grid item xs={12} md={3} lg={3} className={classes.items}>{SubjectAddress}</Grid>
         <Grid item xs={12} md={1} lg={1} className={classes.items}></Grid>
       </Grid>
 
       <Grid className={classes.rowsContainer}>
-        { filteredOffices.map(office => (
-          <Office
+        { filteredSubjects.map(subject => (
+          <Subject
             language={language}
-            key={office.id}
-            office={office}
+            key={subject.id}
+            subject={subject}
           />
         ))}
       </Grid>
-      <OfficeAddForm/>
+      <SubjectAddForm/>
     </Grid>
   )
   

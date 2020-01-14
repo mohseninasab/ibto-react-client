@@ -1,5 +1,5 @@
 import React from 'react';
-import { Offices } from "../../components/offices";
+import { Subjects } from "../../components/subjects";
 import { makeStyles } from "@material-ui/core"
 import Card from '@material-ui/core/Card';
 import Grid from "@material-ui/core/Grid"
@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid"
 // component
 // #############################################################################
 
-export default function OfficesPage(props){
+export default function SubjectsPage(props){
   const classes = useStyles();
 
   // ###########################################################################
@@ -17,7 +17,7 @@ export default function OfficesPage(props){
   return (
     <Card classes={{root: classes.root}}>
       <Grid container justify="flex-end">
-        <Offices/>
+        <Subjects/>
       </Grid>
     </Card>
   );
@@ -35,5 +35,5 @@ const useStyles = makeStyles(theme => ({
 // export
 // #############################################################################
 
-export  { OfficesPage };
+export  { SubjectsPage };
 

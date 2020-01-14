@@ -26,25 +26,33 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // component
 // #############################################################################
 
-export default function OfficeForm(props) {
-  const { office = {}, open = false } = props;
+export default function SubjectForm(props) {
+  const { subject = {}, open = false } = props;
   const dispatch = useDispatch();
   const language = useSelector(state => state.language);
   const classes = useStyles();
-  const city = useFormInput(office.city);
-  const phoneNumber = useFormInput(office.phoneNumber);
-  const address = useFormInput(office.address);
-  const name = useFormInput(office.name);
+
+  const firstName = useFormInput(subject.firstName);
+  const lastName = useFormInput(subject.lastName);
+  const bloodType = useFormInput(subject.bloodType);
+  const nationalCode = useFormInput(subject.nationalCode);
+  const city = useFormInput(subject.city);
+  const phoneNumber = useFormInput(subject.phoneNumber);
+  const address = useFormInput(subject.address);
 
   // ###########################################################################
   // languages
   // ###########################################################################
 
   const {
-    officeFormName,
-    officeFormCity,
-    officeFormPhoneNumber,
-    officeFormAddress,
+    SubjectFirstName,
+    SubjectLastName,
+    SubjectBloodType,
+    SubjectPhoneNumber,
+    SubjectNationalCode,
+    SubjectAddress,
+    SubjectCity,
+
     officeFormCloseButton,
     officeFormDeleteButton,
     officeFormApproveButton,
@@ -54,8 +62,8 @@ export default function OfficeForm(props) {
   // handle delete
   // ###########################################################################
 
-  const DeleteOffice = () => {
-    dispatch(baseActions.deleteOffice({id: office.id}));
+  const Delete = () => {
+    dispatch(baseActions.deleteSubject({id: subject.id}));
     props.closeForm();
   }
 
@@ -63,18 +71,19 @@ export default function OfficeForm(props) {
   // update offices
   // ###########################################################################
 
-  const updateOffice = (event) => {
+  const update = (event) => {
     event.preventDefault();
-
     const data = { 
-      id: office.id,
-      name: name.value,
-      city: city.value,
+      id: subject.id,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      bloodType: bloodType.value,
+      nationalCode: nationalCode.value,
+      city: city.value, 
       address: address.value,
-      phoneNumber: phoneNumber.value 
+      phoneNumber: phoneNumber.value
     };
-
-    dispatch(baseActions.updateOffice(data));
+    dispatch(baseActions.updateSubject(data));
     props.closeForm();
   }
 
@@ -93,18 +102,19 @@ export default function OfficeForm(props) {
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogContent classes={{root: classes.contents}}>
-      <form autoComplete="off" onSubmit={updateOffice}>
+      <form autoComplete="off" onSubmit={update}>
         <Grid container spacing={1} className={classes.dialogContainer}>
 
-        <Grid container item xs={12} md={6}>
+
+          <Grid container item xs={12} md={6}>
             <TextField
               required
               className={`${classes.textField} ${classes.dense}`}
-              label={officeFormName}
+              label={SubjectFirstName}
               margin="dense"
               variant="outlined"
               type="email"
-              {...name}
+              {...firstName}
             />
           </Grid>
 
@@ -112,11 +122,11 @@ export default function OfficeForm(props) {
             <TextField
               required
               className={`${classes.textField} ${classes.dense}`}
-              label={officeFormCity}
+              label={SubjectLastName}
               margin="dense"
               variant="outlined"
               type="email"
-              {...city}
+              {...lastName}
             />
           </Grid>
 
@@ -124,7 +134,31 @@ export default function OfficeForm(props) {
             <TextField
               required
               className={`${classes.textField} ${classes.dense}`}
-              label={officeFormPhoneNumber}
+              label={SubjectBloodType}
+              margin="dense"
+              variant="outlined"
+              type="email"
+              {...bloodType}
+            />
+          </Grid>
+
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectNationalCode}
+              margin="dense"
+              variant="outlined"
+              type="email"
+              {...nationalCode}
+            />
+          </Grid>
+
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectPhoneNumber}
               margin="dense"
               variant="outlined"
               type="email"
@@ -136,7 +170,19 @@ export default function OfficeForm(props) {
             <TextField
               required
               className={`${classes.textField} ${classes.dense}`}
-              label={officeFormAddress}
+              label={SubjectCity}
+              margin="dense"
+              variant="outlined"
+              type="email"
+              {...city}
+            />
+          </Grid>
+
+          <Grid container item xs={12}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectAddress}
               margin="dense"
               variant="outlined"
               type="email"
@@ -157,7 +203,7 @@ export default function OfficeForm(props) {
                 className={classes.button}
                 variant="contained"
                 color="secondary"
-                onClick={DeleteOffice}
+                onClick={Delete}
               >
                 {officeFormDeleteButton}
               </Button>
@@ -166,7 +212,7 @@ export default function OfficeForm(props) {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                onClick={updateOffice}
+                onClick={update}
               >
                 {officeFormApproveButton}
               </Button>
@@ -219,4 +265,4 @@ const useStyles = makeStyles(theme => ({
 // #############################################################################
 
 
-export { OfficeForm };
+export { SubjectForm };

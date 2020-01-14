@@ -1,5 +1,4 @@
 import { baseConstants } from '../constants';
-import { findIndex } from '../common-component-methods';
 
 // #############################################################################
 // list of currencies

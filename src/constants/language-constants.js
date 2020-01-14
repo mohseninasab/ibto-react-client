@@ -115,12 +115,15 @@ const englishTexts = {
   AccountsPageCloseButton: "Close",
 
   OfficesCity: "City",
+  OfficesId: "ID",
+  OfficesName: "Name",
   OfficesPhoneNumber: "Phone Number",
   OfficesAddress: "Address",
 
   transactionDetailButton: "CHANGE",
 
   officeFormCity: "City",
+  officeFormName: "Name",
   officeFormPhoneNumber: "Phone Number",
   officeFormAddress: "Address",
   officeFormCloseButton: "CLOSE",
@@ -128,6 +131,19 @@ const englishTexts = {
   officeFormApproveButton: "APPROVE",
   officeFormSaveButton: "ADD NEW OFFICE",
   officeAddFormCreateButton: "CREATE NEW OFFICE",
+
+
+  SubjectId: "ID",
+  SubjectName: "Name",
+  SubjectBloodType: "Blood Type",
+  SubjectPhoneNumber: "Phone Number",
+  SubjectNationalCode: "National Code",
+  SubjectAddress: "Address",
+  SubjectFirstName: "First Name",
+  SubjectLastName: "Last Name",
+  SubjectCity: "City",
+  SubjectCreateButton:  "ADD NEW SUBJECT",
+  SubjectSaveButton: "ADD NEW SUBJECT",
 };
 
 //##############################################################################
@@ -249,12 +265,15 @@ const farsiTexts = {
   AccountsPageCloseButton: "لغو",
 
   OfficesCity: "شهر",
+  OfficesId: "شناسه",
+  OfficesName: "نام",
   OfficesPhoneNumber: "شماره تماس",
   OfficesAddress: "آدرس",
 
   transactionDetailButton: "تغییر",
 
   officeFormCity: "شهر",
+  officeFormName: "نام",
   officeFormPhoneNumber: "شماره تلفن",
   officeFormAddress: "آدرس",
   officeFormCloseButton: "تایید",
@@ -262,6 +281,16 @@ const farsiTexts = {
   officeFormApproveButton: "تایید",
   officeFormSaveButton: "ذخیره",
   officeAddFormCreateButton: "ساخت اداره",
+
+  SubjectId: "شناسه",
+  SubjectName: "نام",
+  SubjectBloodType: "گروه خونی",
+  SubjectPhoneNumber: "شماره تماس",
+  SubjectNationalCode: "کد ملی",
+  SubjectAddress: "آدرس",
+  SubjectFirstName: "نام",
+  SubjectLastName: "نام خانوادگی",
+  SubjectCity: "شهر",
 };
 
 //##############################################################################

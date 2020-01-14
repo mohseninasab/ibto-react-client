@@ -26,17 +26,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // component
 // #############################################################################
 
-export default function OfficeAddForm(props) {
-  const { office = {} } = props;
+export default function SubjectAddForm(props) {
+  const { subject = {} } = props;
   const dispatch = useDispatch();
-  const open = useFormInput(false);
-
   const language = useSelector(state => state.language);
   const classes = useStyles();
-  const city = useFormInput(office.city);
-  const phoneNumber = useFormInput(office.phoneNumber);
-  const address = useFormInput(office.address);
-  const name = useFormInput(office.name);
+  const open = useFormInput(false);
+
+  const firstName = useFormInput(subject.firstName);
+  const lastName = useFormInput(subject.lastName);
+  const bloodType = useFormInput(subject.bloodType);
+  const nationalCode = useFormInput(subject.nationalCode);
+  const city = useFormInput(subject.city);
+  const phoneNumber = useFormInput(subject.phoneNumber);
+  const address = useFormInput(subject.address);
   
 
   // ###########################################################################
@@ -44,13 +47,18 @@ export default function OfficeAddForm(props) {
   // ###########################################################################
 
   const {
-    officeFormName,
-    officeFormCity,
-    officeFormPhoneNumber,
-    officeFormAddress,
+
+    SubjectFirstName,
+    SubjectLastName,
+    SubjectBloodType,
+    SubjectPhoneNumber,
+    SubjectNationalCode,
+    SubjectAddress,
+    SubjectCity,
+
     officeFormCloseButton,
-    officeFormSaveButton,
-    officeAddFormCreateButton,
+    SubjectSaveButton,
+    SubjectCreateButton,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -68,12 +76,16 @@ export default function OfficeAddForm(props) {
   const addOffice = (event) => {
     event.preventDefault();
     const data = { 
-      name: name.value, 
+      id: subject.id,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      bloodType: bloodType.value,
+      nationalCode: nationalCode.value,
       city: city.value, 
       address: address.value,
       phoneNumber: phoneNumber.value
     };
-    dispatch(baseActions.office(data));
+    dispatch(baseActions.subject(data));
     handleOpen();
   }
 
@@ -89,7 +101,7 @@ export default function OfficeAddForm(props) {
         color="secondary"
         onClick={handleOpen}
       >
-        {officeAddFormCreateButton}
+        {SubjectCreateButton}
       </Button>
       <Dialog
         classes={{paper: classes.root}}
@@ -105,52 +117,88 @@ export default function OfficeAddForm(props) {
           <Grid container spacing={1} className={classes.dialogContainer}>
 
             <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                className={`${classes.textField} ${classes.dense}`}
-                label={officeFormName}
-                margin="dense"
-                variant="outlined"
-                type="text"
-                {...name}
-              />
-            </Grid>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectFirstName}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...firstName}
+            />
+          </Grid>
 
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                className={`${classes.textField} ${classes.dense}`}
-                label={officeFormCity}
-                margin="dense"
-                variant="outlined"
-                type="text"
-                {...city}
-              />
-            </Grid>
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectLastName}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...lastName}
+            />
+          </Grid>
 
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                className={`${classes.textField} ${classes.dense}`}
-                label={officeFormPhoneNumber}
-                margin="dense"
-                variant="outlined"
-                type="number"
-                {...phoneNumber}
-              />
-            </Grid>
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectBloodType}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...bloodType}
+            />
+          </Grid>
 
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                className={`${classes.textField} ${classes.dense}`}
-                label={officeFormAddress}
-                margin="dense"
-                variant="outlined"
-                type="text"
-                {...address}
-              />
-            </Grid>
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectNationalCode}
+              margin="dense"
+              variant="outlined"
+              type="number"
+              {...nationalCode}
+            />
+          </Grid>
+
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectPhoneNumber}
+              margin="dense"
+              variant="outlined"
+              type="number"
+              {...phoneNumber}
+            />
+          </Grid>
+
+          <Grid container item xs={12} md={6}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectCity}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...city}
+            />
+          </Grid>
+
+          <Grid container item xs={12}>
+            <TextField
+              required
+              className={`${classes.textField} ${classes.dense}`}
+              label={SubjectAddress}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...address}
+            />
+          </Grid>
 
             <Grid container justify="flex-end" className={classes.buttonHolders}>  
                 <Button
@@ -167,7 +215,7 @@ export default function OfficeAddForm(props) {
                   color="primary"
                   type="submit"
                 >
-                  {officeFormSaveButton}
+                  {SubjectSaveButton}
                 </Button>
               </Grid>
             
@@ -219,4 +267,4 @@ const useStyles = makeStyles(theme => ({
 // #############################################################################
 
 
-export { OfficeAddForm };
+export { SubjectAddForm };

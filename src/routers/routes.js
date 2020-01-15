@@ -28,6 +28,13 @@ export default [
         exact: false,
       },
       {
+        layout: lazy(() => import("pages/admin-dashboard/staff-page")),
+        path: '/admin-dashboard/staff',
+        label: 'Transaction Page',
+        title: 'Transaction Page',
+        exact: false,
+      },
+      {
         layout: lazy(() => import("components/error-pages/error-page")),
         path: '/admin-dashboard/',
         label: 'Error Page',

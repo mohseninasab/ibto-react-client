@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import { strings } from '../../constants';
 import { useSelector, useDispatch } from "react-redux";
-import { Subject } from "./subject";
+import { Staff } from "./staff";
 import { baseActions } from "actions"
-import { useFormInput } from "common-component-methods"
+import { useFormInput, filterArray } from "common-component-methods"
 import TextField from "@material-ui/core/TextField"
-import { SubjectAddForm } from "./"
+import { StaffAddForm } from "./"
 
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -14,11 +14,11 @@ import Grid from "@material-ui/core/Grid";
 // component
 // #############################################################################
 
-export function Subjects(props){
+export function Staffs(props){
   const classes = useStyles();
   const language = useSelector(state => state.language);
   const dispatch = useDispatch();
-  const subjects = useSelector(state => state.subjects);
+  const staff = useSelector(state => state.staff);
   const searchQuery = useFormInput("");
 
   // ###########################################################################
@@ -26,12 +26,13 @@ export function Subjects(props){
   // ###########################################################################
 
   const {
-    SubjectId,
-    SubjectName,
-    SubjectBloodType,
-    SubjectPhoneNumber,
-    SubjectNationalCode,
-    SubjectAddress,
+    StaffId,
+    StaffName,
+    StaffRole,
+    StaffNumber,
+    StaffOffice,
+    StaffPhoneNumber,
+    StaffAddress,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -39,30 +40,15 @@ export function Subjects(props){
   // ###########################################################################
 
   useEffect(() => {
-    dispatch(baseActions.getSubjects());
+    dispatch(baseActions.getStaff());
+    dispatch(baseActions.getOffices());
   },[dispatch])
-
-  // ###########################################################################
-  // filter array
-  // ###########################################################################
-
-  const filterArray = (array, keys = [], searchQuery = "") => {
-    return array.filter(item => {
-      let result = false;
-      keys.forEach(key => {
-        result =
-          item[key].toString().toLowerCase().includes(searchQuery.toLowerCase()) || result;
-      });
-      return result;
-    });
-  };
 
   // ###########################################################################
   // filtered array
   // ###########################################################################
 
-
-  const filteredSubjects = filterArray(subjects, ["firstName", "lastName", "city", "bloodType", "nationalCode", "address"], searchQuery.value);
+  const filteredStaff = filterArray(staff, ["firstName", "lastName", "city", "address", "employeeNumber", "role"], searchQuery.value);
 
   // ###########################################################################
   // render
@@ -70,11 +56,9 @@ export function Subjects(props){
 
   return (
     <Grid container className={classes.root} direction="column">
-      
-      <Grid container spacing={1}>
+      <Grid spacing={1}  container>
         <Grid item xs={12} md={10}>
           <TextField
-            required
             classes={{root: classes.textField}}
             label={"Search"}
             margin="dense"
@@ -83,28 +67,28 @@ export function Subjects(props){
             {...searchQuery}
           />
         </Grid>
-
         <Grid item xs={12} md={2}>
-          <SubjectAddForm/>
+          <StaffAddForm/>
         </Grid>
       </Grid>
       
       <Grid container alignItems="center" className={classes.header}>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{SubjectId}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectName}</Grid>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{SubjectBloodType}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectPhoneNumber}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{SubjectNationalCode}</Grid>
-        <Grid item xs={12} md={3} lg={3} className={classes.items}>{SubjectAddress}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffId}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffName}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffNumber}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffOffice}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffPhoneNumber}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffRole}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffAddress}</Grid>
         <Grid item xs={12} md={1} lg={1} className={classes.items}></Grid>
       </Grid>
 
       <Grid className={classes.rowsContainer}>
-        { filteredSubjects.map(subject => (
-          <Subject
+        { filteredStaff.map(staff => (
+          <Staff
             language={language}
-            key={subject.id}
-            subject={subject}
+            key={staff.id}
+            staff={staff}
           />
         ))}
       </Grid>

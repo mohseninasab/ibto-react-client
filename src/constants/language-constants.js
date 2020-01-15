@@ -132,6 +132,8 @@ const englishTexts = {
   officeFormSaveButton: "ADD NEW OFFICE",
   officeAddFormCreateButton: "CREATE NEW OFFICE",
 
+  NextButton: "NEXT",
+  backButton: "BACK",
 
   SubjectId: "ID",
   SubjectName: "Name",
@@ -144,6 +146,19 @@ const englishTexts = {
   SubjectCity: "City",
   SubjectCreateButton:  "ADD NEW SUBJECT",
   SubjectSaveButton: "ADD NEW SUBJECT",
+
+  StaffId: "ID",
+  StaffName: "Full Name",
+  StaffFirstName: "First Name",
+  StaffLastName:"Last Name",
+  StaffRole: "Role",
+  StaffNumber: "EMP.NO",
+  StaffOffice: "Office",
+  StaffPhoneNumber: "Phone Number",
+  StaffCity:"City",
+  StaffAddress: "Address",
+  StaffFormCreateButton: "ADD NEW STAFF",
+  StaffSaveButton: "Save CHANGEES",
 };
 
 //##############################################################################
@@ -282,6 +297,9 @@ const farsiTexts = {
   officeFormSaveButton: "ذخیره",
   officeAddFormCreateButton: "ساخت اداره",
 
+  NextButton: "بعد",
+  backButton: "قبل",
+
   SubjectId: "شناسه",
   SubjectName: "نام",
   SubjectBloodType: "گروه خونی",
@@ -291,6 +309,20 @@ const farsiTexts = {
   SubjectFirstName: "نام",
   SubjectLastName: "نام خانوادگی",
   SubjectCity: "شهر",
+  SubjectCreateButton: "افزودن فرد جدید",
+
+  StaffId: "ID",
+  StaffName: "نام",
+  StaffFirstName: "نام",
+  StaffLastName:"نام خانوادگی",
+  StaffRole: "سمت",
+  StaffNumber: "ش کارمندی",
+  StaffOffice: "شعبه",
+  StaffPhoneNumber: "شماره تماس",
+  StaffCity: "شهر",
+  StaffAddress: "آدرس",
+  StaffFormCreateButton: "افزودن کارمند جدید",
+  StaffSaveButton: "ذخیره",
 };
 
 //##############################################################################

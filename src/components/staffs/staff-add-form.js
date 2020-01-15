@@ -1,17 +1,22 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { strings } from '../../constants';
-import { useFormInput } from "common-component-methods"
+import { useFormInput, filterArray } from "common-component-methods"
 import { baseActions } from "actions"
 
 import { makeStyles } from "@material-ui/core"
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
+
+import Chip from '@material-ui/core/Chip';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
 
 // #############################################################################
@@ -26,39 +31,42 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // component
 // #############################################################################
 
-export default function SubjectAddForm(props) {
-  const { subject = {} } = props;
+export default function StaffAddForm(props) {
   const dispatch = useDispatch();
   const language = useSelector(state => state.language);
+  const offices = useSelector(state => state.offices);
   const classes = useStyles();
   const open = useFormInput(false);
+  const [step, setStep] = useState(0)
+  const [office, setOffice] = useState(undefined);
 
-  const firstName = useFormInput(subject.firstName);
-  const lastName = useFormInput(subject.lastName);
-  const bloodType = useFormInput(subject.bloodType);
-  const nationalCode = useFormInput(subject.nationalCode);
-  const city = useFormInput(subject.city);
-  const phoneNumber = useFormInput(subject.phoneNumber);
-  const address = useFormInput(subject.address);
+  const firstName = useFormInput("");
+  const lastName = useFormInput("");
+  const employeeNumber = useFormInput("");
+  const role = useFormInput("");
+  const city = useFormInput("");
+  const phoneNumber = useFormInput("");
+  const address = useFormInput("");
+  const searchQuery = useFormInput("");
   
-
   // ###########################################################################
   // languages
   // ###########################################################################
 
   const {
 
-    SubjectFirstName,
-    SubjectLastName,
-    SubjectBloodType,
-    SubjectPhoneNumber,
-    SubjectNationalCode,
-    SubjectAddress,
-    SubjectCity,
+    StaffFirstName,
+    StaffLastName,
+    StaffNumber,
+    StaffRole,
+    StaffPhoneNumber,
+    StaffAddress,
+    StaffCity,
+    StaffFormCreateButton,
 
     officeFormCloseButton,
-    SubjectSaveButton,
-    SubjectCreateButton,
+    NextButton,
+    backButton,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -73,21 +81,45 @@ export default function SubjectAddForm(props) {
   // add new office
   // ###########################################################################
 
-  const addOffice = (event) => {
+  const handleNext = (event) => {
+    event.preventDefault();
+    setStep(step + 1);
+  }
+
+  // ###########################################################################
+  // add new office
+  // ###########################################################################
+
+  const handleBack = () => {
+    setStep(step - 1);
+  }
+
+  // ###########################################################################
+  // handle back
+  // ###########################################################################
+
+  const add = (event) => {
     event.preventDefault();
     const data = { 
-      id: subject.id,
       firstName: firstName.value,
       lastName: lastName.value,
-      bloodType: bloodType.value,
-      nationalCode: nationalCode.value,
+      employeeNumber: employeeNumber.value,
+      role: role.value,
+      office: office,
       city: city.value, 
       address: address.value,
       phoneNumber: phoneNumber.value
     };
-    dispatch(baseActions.subject(data));
+    dispatch(baseActions.staff(data));
     handleOpen();
   }
+
+
+  // ###########################################################################
+  // filtered array
+  // ###########################################################################
+
+  const filteredOffices = filterArray(offices, ["name", "city", "id"], searchQuery.value);
 
   // ###########################################################################
   // return of the component 
@@ -101,7 +133,7 @@ export default function SubjectAddForm(props) {
         color="secondary"
         onClick={handleOpen}
       >
-        {SubjectCreateButton}
+        {StaffFormCreateButton}
       </Button>
       <Dialog
         classes={{paper: classes.root}}
@@ -113,14 +145,16 @@ export default function SubjectAddForm(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogContent classes={{root: classes.contents}}>
-        <form autoComplete="off" onSubmit={addOffice}>
+        {step === 0 &&
+
+        <form autoComplete="off" onSubmit={handleNext}>
           <Grid container spacing={1} className={classes.dialogContainer}>
 
-            <Grid container item xs={12} md={6}>
+          <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectFirstName}
+              label={StaffFirstName}
               margin="dense"
               variant="outlined"
               type="text"
@@ -130,9 +164,9 @@ export default function SubjectAddForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectLastName}
+              label={StaffLastName}
               margin="dense"
               variant="outlined"
               type="text"
@@ -142,33 +176,33 @@ export default function SubjectAddForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectBloodType}
+              label={StaffNumber}
               margin="dense"
               variant="outlined"
               type="text"
-              {...bloodType}
+              {...employeeNumber}
             />
           </Grid>
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectNationalCode}
+              label={StaffRole}
               margin="dense"
               variant="outlined"
-              type="number"
-              {...nationalCode}
+              type="text"
+              {...role}
             />
           </Grid>
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectPhoneNumber}
+              label={StaffPhoneNumber}
               margin="dense"
               variant="outlined"
               type="number"
@@ -178,9 +212,9 @@ export default function SubjectAddForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectCity}
+              label={StaffCity}
               margin="dense"
               variant="outlined"
               type="text"
@@ -190,9 +224,9 @@ export default function SubjectAddForm(props) {
 
           <Grid container item xs={12}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
-              label={SubjectAddress}
+              label={StaffAddress}
               margin="dense"
               variant="outlined"
               type="text"
@@ -200,7 +234,7 @@ export default function SubjectAddForm(props) {
             />
           </Grid>
 
-            <Grid container justify="flex-end" className={classes.buttonHolders}>  
+            <Grid item container justify="flex-end" className={classes.buttonHolders}>  
                 <Button
                   className={classes.button}
                   color="secondary"
@@ -215,12 +249,71 @@ export default function SubjectAddForm(props) {
                   color="primary"
                   type="submit"
                 >
-                  {SubjectSaveButton}
+                  {NextButton}
                 </Button>
               </Grid>
             
           </Grid>
           </form>
+        }
+        {step === 1 && 
+
+          <Grid spacing={1} container className={classes.dialogContainer}> 
+            <TextField
+              className={`${classes.textField} ${classes.dense}`}
+              label={StaffCity}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...searchQuery}
+            />
+            <Grid container alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredOffices.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={4} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={office === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={item.name}
+                    variant="outlined"
+                    onClick={() => {setOffice(item.id)}}
+                    color={office === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={handleOpen}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={add}
+                >
+                  {StaffFormCreateButton}
+                </Button>
+              </Grid>
+          </Grid>
+
+        }
         </DialogContent>
       </Dialog>
     </React.Fragment>
@@ -238,13 +331,17 @@ const useStyles = makeStyles(theme => ({
       maxWidth: "60%"
     }
   },
-  addButton:{
-    margin: "5px 0",
-    height: 40,
-    width: "-webkit-fill-available",
+  chip:{
+    width: "100%",
+    justifyContent:"flex-start",
+    borderWidth: 2,
+  },
+  officeItem:{
+    height: "fit-content",
   },
   contents:{
     padding: "10px !important",
+    minHeight: 310,
   },
   dialogContainer:{
     maxHeight: "calc(100vh - 135px)",
@@ -253,12 +350,23 @@ const useStyles = makeStyles(theme => ({
       minHeight: "calc(100vh - 135px)",
     }
   },
+  officesContainer:{
+
+    minHeight: 177,
+    marginTop: 15,
+  },
+  addButton:{
+    margin: "5px 0",
+    height: 40,
+    width: "-webkit-fill-available",
+  },
   button:{
     height: "fit-content",
+    marginLeft: 5,
     marginTop: 5,
   },
   buttonHolders:{
-    marginTop: 20
+    marginTop: 10
   },
   line:{
     width: "100%",
@@ -272,4 +380,4 @@ const useStyles = makeStyles(theme => ({
 // #############################################################################
 
 
-export { SubjectAddForm };
+export { StaffAddForm };

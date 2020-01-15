@@ -17,7 +17,6 @@ import { subjects } from "./subjects-reducer"
 
 const appReducer = combineReducers({ 
   user,
-  staff,
   language,
   theme,
   progress,
@@ -25,6 +24,7 @@ const appReducer = combineReducers({
   donations,
   offices,
   subjects,
+  staff,
 });
 
 // #############################################################################

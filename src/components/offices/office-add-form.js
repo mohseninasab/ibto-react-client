@@ -84,7 +84,7 @@ export default function OfficeAddForm(props) {
   return (
     <React.Fragment>
       <Button
-        className={classes.button}
+        className={classes.addButton}
         variant="contained"
         color="secondary"
         onClick={handleOpen}
@@ -189,6 +189,11 @@ const useStyles = makeStyles(theme => ({
       width: "60%",
       maxWidth: "60%"
     }
+  },
+  addButton:{
+    margin: "5px 0",
+    height: 40,
+    width: "-webkit-fill-available",
   },
   contents:{
     padding: "10px !important",

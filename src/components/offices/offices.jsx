@@ -70,15 +70,22 @@ export function Offices(props){
   return (
     <Grid container className={classes.root} direction="column">
 
-      <TextField
-        required
-        classes={{root: classes.textField}}
-        label={"Search"}
-        margin="dense"
-        variant="outlined"
-        type="text"
-        {...searchQuery}
-      />
+      <Grid spacing={1} container>
+        <Grid item xs={12} md={10}>
+          <TextField
+            required
+            classes={{root: classes.textField}}
+            label={"Search"}
+            margin="dense"
+            variant="outlined"
+            type="text"
+            {...searchQuery}
+          />
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <OfficeAddForm/>
+        </Grid>
+      </Grid>
       
       <Grid container alignItems="center" className={classes.header}>
         <Grid item xs={12} md={1} lg={1} className={classes.items}>{OfficesId}</Grid>
@@ -98,7 +105,7 @@ export function Offices(props){
           />
         ))}
       </Grid>
-      <OfficeAddForm/>
+      
     </Grid>
   )
   
@@ -134,6 +141,6 @@ const useStyles = makeStyles(theme => ({
   rowsContainer:{
     width: "100%",
     overflow: "auto",
-    height: "calc(100vh - 245px)"
+    height: "calc(100vh - 210px)"
   }
 }));

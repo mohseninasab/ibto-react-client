@@ -22,7 +22,12 @@ export const baseActions = {
   subject,
   getSubjects,
   updateSubject,
-  deleteSubject
+  deleteSubject,
+
+  staff,
+  getStaff,
+  updateStaff,
+  deleteStaff,
 
 };
 
@@ -40,7 +45,7 @@ function donation(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -64,7 +69,7 @@ function getDonations() {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -87,7 +92,7 @@ function updateDonations() {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -110,7 +115,7 @@ function deleteDonation(transactionId) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -137,7 +142,7 @@ function office(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -161,7 +166,7 @@ function getOffices() {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -188,7 +193,7 @@ function updateOffice(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -214,7 +219,7 @@ function deleteOffice(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -241,7 +246,7 @@ function subject(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -264,7 +269,7 @@ function getSubjects() {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -291,7 +296,7 @@ function updateSubject(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
@@ -318,11 +323,116 @@ function deleteSubject(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
-        dispatch(snackBarActions.snackBarError(error.data.msgEn));
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
   };
   function success(payload) {
     return { type: baseConstants.DELETE_SUBJECT_SUCCESS, payload };
+  }
+}
+
+
+//##############################################################################
+// 
+//##############################################################################
+
+function staff(data) {
+  const query = {
+    query: `INSERT INTO ibto.staff (firstName, lastName, employeeNumber, phoneNumber, address, city, role, office) VALUES ("${data.firstName}", "${data.lastName}", "${data.employeeNumber}", "${data.phoneNumber}", "${data.address}", "${data.city}", "${data.role}", ${data.office});`,
+    secondQuery: `SELECT * FROM ibto.staff INNER JOIN ibto.offices ON ibto.staff.office=ibto.offices.id;`,
+  };
+  return dispatch => {
+    dispatch(progressBarActions.start());
+    baseServices.PUT(query).then(
+      response => {
+        dispatch(progressBarActions.stop());
+        dispatch(success(response));
+      },
+      error => {
+        dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
+      }
+    );
+  };
+  function success(payload) {
+    return { type: baseConstants.ADD_STAFF_SUCCESS, payload };
+  }
+}
+
+//##############################################################################
+// 
+//##############################################################################
+
+function getStaff() {
+  return dispatch => {
+    dispatch(progressBarActions.start());
+    baseServices.GET({query: "SELECT * FROM ibto.staff INNER JOIN ibto.offices ON ibto.staff.office=ibto.offices.id;"}).then(
+      response => {
+        dispatch(progressBarActions.stop());
+        dispatch(success(response));
+      },
+      error => {
+        dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
+      }
+    );
+  };
+  function success(payload) {
+    return { type: baseConstants.GET_STAFF_SUCCESS, payload };
+  }
+}
+
+//##############################################################################
+// 
+//##############################################################################
+
+function updateStaff(data) {
+  const query = {
+    query: `UPDATE ibto.staff SET firstName = "${data.firstName}", lastName = "${data.lastName}", employeeNumber = "${data.employeeNumber}", phoneNumber = "${data.phoneNumber}", address = "${data.address}", city = "${data.city}", role = "${data.role}", office = ${data.office} WHERE id = ${data.id};`,
+    secondQuery: `SELECT * FROM ibto.staff;`,
+  };
+  return dispatch => {
+    dispatch(progressBarActions.start());
+    baseServices.PUT(query).then(
+      response => {
+        dispatch(progressBarActions.stop());
+        dispatch(success(response));
+      },
+      error => {
+        dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
+      }
+    );
+  };
+  function success(payload) {
+    return { type: baseConstants.UPDATE_STAFF_SUCCESS, payload };
+  }
+}
+
+//##############################################################################
+// 
+//##############################################################################
+
+function deleteStaff(data) {
+  const query = {
+    query: `DELETE FROM ibto.staff WHERE id = ${data.id}`,
+    secondQuery: `SELECT * FROM ibto.staff;`,
+  };
+  return dispatch => {
+    dispatch(progressBarActions.start());
+    baseServices.DEL(query).then(
+      response => {
+        dispatch(progressBarActions.stop());
+        dispatch(success(response));
+      },
+      error => {
+        dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
+      }
+    );
+  };
+  function success(payload) {
+    return { type: baseConstants.DELETE_STAFF_SUCCESS, payload };
   }
 }

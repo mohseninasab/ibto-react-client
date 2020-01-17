@@ -3,7 +3,7 @@
 //##############################################################################
 
 const englishTexts = {
-  loginPageTitle: "Asan Transfer",
+  loginPageTitle: "Blood Donation",
   loginPageInputPasswordPlaceHolder: "Password",
   loginPageInputEmailPlaceHolder: "email",
   loginPageQuestion: "Do you have account?",

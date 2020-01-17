@@ -102,8 +102,8 @@ export function SideBar(props){
           button
           dense
           className={classes.itemButton}
-          onClick={handleRouting("/admin-dashboard/transaction-requests")}
-          selected={selectedRoute === '/admin-dashboard/transaction-requests'}
+          onClick={handleRouting("/admin-dashboard/donations")}
+          selected={selectedRoute === '/admin-dashboard/donations'}
         >
           <ListItemIcon className={classes.iconColor} ><FavoriteIcon classes={{root: classes.red}}/></ListItemIcon>
           <ListItemText className={classes.text} primary={adminDashboardSideBarBloodDonations} />

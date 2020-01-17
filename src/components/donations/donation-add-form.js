@@ -31,29 +31,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // component
 // #############################################################################
 
-export default function StaffForm(props) {
-  const { staff = {}, open = false } = props;
+export default function DonationAddForm(props) {
   const dispatch = useDispatch();
   const language = useSelector(state => state.language);
   const offices = useSelector(state => state.offices);
   const classes = useStyles();
+  const open = useFormInput(false);
   const [step, setStep] = useState(0)
-  const [office, setOffice] = useState(staff.office);
+  const [office, setOffice] = useState(undefined);
 
-  const firstName = useFormInput(staff.firstName);
-  const lastName = useFormInput(staff.lastName);
-  const employeeNumber = useFormInput(staff.employeeNumber);
-  const role = useFormInput(staff.role);
-  const city = useFormInput(staff.city);
-  const phoneNumber = useFormInput(staff.phoneNumber);
-  const address = useFormInput(staff.address);
-  const searchQuery = useFormInput(staff.searchQuery);
+  const firstName = useFormInput("");
+  const lastName = useFormInput("");
+  const employeeNumber = useFormInput("");
+  const role = useFormInput("");
+  const city = useFormInput("");
+  const phoneNumber = useFormInput("");
+  const address = useFormInput("");
+  const searchQuery = useFormInput("");
   
   // ###########################################################################
   // languages
   // ###########################################################################
 
   const {
+
     StaffFirstName,
     StaffLastName,
     StaffNumber,
@@ -61,13 +62,20 @@ export default function StaffForm(props) {
     StaffPhoneNumber,
     StaffAddress,
     StaffCity,
-    StaffSaveButton,
-    StaffOffice,
+    StaffFormCreateButton,
 
     officeFormCloseButton,
     NextButton,
     backButton,
   } = strings[language].texts;
+
+  // ###########################################################################
+  // open the form
+  // ###########################################################################
+
+  const handleOpen = () => {
+    open.onChange({target: {value: !open.value}})
+  }
 
   // ###########################################################################
   // add new office
@@ -93,7 +101,6 @@ export default function StaffForm(props) {
   const add = (event) => {
     event.preventDefault();
     const data = { 
-      id: staff.id,
       firstName: firstName.value,
       lastName: lastName.value,
       employeeNumber: employeeNumber.value,
@@ -103,8 +110,8 @@ export default function StaffForm(props) {
       address: address.value,
       phoneNumber: phoneNumber.value
     };
-    dispatch(baseActions.updateStaff(data));
-    props.closeForm();
+    dispatch(baseActions.staff(data));
+    handleOpen();
   }
 
 
@@ -120,12 +127,20 @@ export default function StaffForm(props) {
 
   return (
     <React.Fragment>
+      <Button
+        className={classes.addButton}
+        variant="contained"
+        color="secondary"
+        onClick={handleOpen}
+      >
+        {StaffFormCreateButton}
+      </Button>
       <Dialog
         classes={{paper: classes.root}}
-        open={open}
+        open={open.value}
         TransitionComponent={Transition}
         keepMounted
-        onClose={props.closeForm}
+        onClose={handleOpen}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
@@ -137,7 +152,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffFirstName}
               margin="dense"
@@ -149,7 +164,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffLastName}
               margin="dense"
@@ -161,7 +176,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffNumber}
               margin="dense"
@@ -173,7 +188,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffRole}
               margin="dense"
@@ -185,7 +200,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffPhoneNumber}
               margin="dense"
@@ -197,7 +212,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12} md={6}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffCity}
               margin="dense"
@@ -209,7 +224,7 @@ export default function StaffForm(props) {
 
           <Grid container item xs={12}>
             <TextField
-              required
+              
               className={`${classes.textField} ${classes.dense}`}
               label={StaffAddress}
               margin="dense"
@@ -223,7 +238,7 @@ export default function StaffForm(props) {
                 <Button
                   className={classes.button}
                   color="secondary"
-                  onClick={props.closeForm}
+                  onClick={handleOpen}
                 >
                   {officeFormCloseButton}
                 </Button>
@@ -246,7 +261,7 @@ export default function StaffForm(props) {
           <Grid spacing={1} container className={classes.dialogContainer}> 
             <TextField
               className={`${classes.textField} ${classes.dense}`}
-              label={StaffOffice}
+              label={StaffCity}
               margin="dense"
               variant="outlined"
               type="text"
@@ -273,7 +288,7 @@ export default function StaffForm(props) {
                 <Button
                   className={classes.button}
                   color="secondary"
-                  onClick={props.closeForm}
+                  onClick={handleOpen}
                 >
                   {officeFormCloseButton}
                 </Button>
@@ -293,7 +308,7 @@ export default function StaffForm(props) {
                   color="primary"
                   onClick={add}
                 >
-                  {StaffSaveButton}
+                  {StaffFormCreateButton}
                 </Button>
               </Grid>
           </Grid>
@@ -340,6 +355,11 @@ const useStyles = makeStyles(theme => ({
     minHeight: 177,
     marginTop: 15,
   },
+  addButton:{
+    margin: "5px 0",
+    height: 40,
+    width: "-webkit-fill-available",
+  },
   button:{
     height: "fit-content",
     marginLeft: 5,
@@ -360,4 +380,4 @@ const useStyles = makeStyles(theme => ({
 // #############################################################################
 
 
-export { StaffForm };
+export { DonationAddForm };

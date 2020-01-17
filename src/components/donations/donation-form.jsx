@@ -31,7 +31,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // component
 // #############################################################################
 
-export default function StaffForm(props) {
+export default function DonationForm(props) {
   const { staff = {}, open = false } = props;
   const dispatch = useDispatch();
   const language = useSelector(state => state.language);
@@ -360,4 +360,4 @@ const useStyles = makeStyles(theme => ({
 // #############################################################################
 
 
-export { StaffForm };
+export { DonationForm };

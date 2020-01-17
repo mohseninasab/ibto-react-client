@@ -36,11 +36,16 @@ export const baseActions = {
 //##############################################################################
 
 function donation(data) {
+  const query = {
+    query: `INSERT INTO ibto.donations (name, address, city, phoneNumber) VALUES ("${data.name}", "${data.address}", "${data.city}", "${data.phoneNumber}");`,
+    secondQuery: `SELECT * FROM ibto.donations;`,
+  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(data).then(
+    baseServices.PUT(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -60,9 +65,10 @@ function donation(data) {
 //##############################################################################
 
 function getDonations() {
+  const query = { query: `SELECT * FROM ibto.donations;` };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET({query: "SELECT * FROM ibto.offices;"}).then(
+    baseServices.GET(query).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -88,6 +94,7 @@ function updateDonations() {
     baseServices.PUT().then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -111,6 +118,7 @@ function deleteDonation(transactionId) {
     baseServices.DEL(transactionId).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -138,6 +146,7 @@ function office(data) {
     baseServices.PUT(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -189,6 +198,7 @@ function updateOffice(data) {
     baseServices.PUT(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -215,6 +225,7 @@ function deleteOffice(data) {
     baseServices.DEL(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -242,6 +253,7 @@ function subject(data) {
     baseServices.PUT(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -296,6 +308,7 @@ function updateSubject(data) {
       },
       error => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(snackBarActions.snackBarError("Connection Error!"));
       }
     );
@@ -319,6 +332,7 @@ function deleteSubject(data) {
     baseServices.DEL(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -340,7 +354,7 @@ function deleteSubject(data) {
 function staff(data) {
   const query = {
     query: `INSERT INTO ibto.staff (firstName, lastName, employeeNumber, phoneNumber, address, city, role, office) VALUES ("${data.firstName}", "${data.lastName}", "${data.employeeNumber}", "${data.phoneNumber}", "${data.address}", "${data.city}", "${data.role}", ${data.office});`,
-    secondQuery: `SELECT * FROM ibto.staff INNER JOIN ibto.offices ON ibto.staff.office=ibto.offices.id;`,
+    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
   };
   return dispatch => {
     dispatch(progressBarActions.start());
@@ -348,6 +362,7 @@ function staff(data) {
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
       },
       error => {
         dispatch(progressBarActions.stop());
@@ -367,7 +382,7 @@ function staff(data) {
 function getStaff() {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET({query: "SELECT * FROM ibto.staff INNER JOIN ibto.offices ON ibto.staff.office=ibto.offices.id;"}).then(
+    baseServices.GET({query: "SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;"}).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -390,13 +405,14 @@ function getStaff() {
 function updateStaff(data) {
   const query = {
     query: `UPDATE ibto.staff SET firstName = "${data.firstName}", lastName = "${data.lastName}", employeeNumber = "${data.employeeNumber}", phoneNumber = "${data.phoneNumber}", address = "${data.address}", city = "${data.city}", role = "${data.role}", office = ${data.office} WHERE id = ${data.id};`,
-    secondQuery: `SELECT * FROM ibto.staff;`,
+    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
   };
   return dispatch => {
     dispatch(progressBarActions.start());
     baseServices.PUT(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
         dispatch(success(response));
       },
       error => {
@@ -417,13 +433,14 @@ function updateStaff(data) {
 function deleteStaff(data) {
   const query = {
     query: `DELETE FROM ibto.staff WHERE id = ${data.id}`,
-    secondQuery: `SELECT * FROM ibto.staff;`,
+    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
   };
   return dispatch => {
     dispatch(progressBarActions.start());
     baseServices.DEL(query).then(
       response => {
         dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
         dispatch(success(response));
       },
       error => {

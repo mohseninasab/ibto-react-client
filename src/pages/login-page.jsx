@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LoginBackground } from "../components/responsive-backgrounds";
 import { strings } from '../constants';
 import { authActions } from '../actions'
-import { Link } from 'react-router-dom';
-// import { PhoneNumberInput } from '../components/phone-input'
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -13,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // #############################################################################
@@ -35,10 +32,7 @@ export default function Login (props){
     loginPageTitle,
     loginPageInputPasswordPlaceHolder,
     loginPageInputEmailPlaceHolder,
-    loginPageQuestion,
-    loginPageLink,
     loginPageLoginButton,
-    loginPageForgetPassword,
 
   } = strings[language].texts;
 
@@ -65,14 +59,8 @@ export default function Login (props){
       <Grid item container alignItems="center" justify="center" xs={12} sm={6} className={classes.formContainer}>
 
         <Grid item xs={12} sm={10} md={8} lg={6} className={classes.formHolder} >
-          <Typography color="primary" variant="h5" className={classes.title}>{loginPageTitle}</Typography>
+          <Typography color="secondary" variant="h5" className={classes.title}>{loginPageTitle}</Typography>
 
-          <Grid justify='center' container className={classes.questionHolder} >
-            <Typography className={classes.question} color="primary" variant="subtitle2">{loginPageQuestion} </Typography>
-            <Link className={classes.link} to="/sign-up">
-              <Typography className={classes.question} color="secondary" variant="subtitle2"> {loginPageLink}</Typography>
-            </Link>
-          </Grid>
 
           <form onSubmit={handleLogin}>
 
@@ -110,15 +98,10 @@ export default function Login (props){
                 )
               }}
             />
-            <Grid container className={classes.forgetPasswordText}>
-              <Link className={classes.link} to="/sign-up">
-                <Typography className={classes.forgetPassword} color="textSecondary" variant="caption"> {loginPageForgetPassword}</Typography>
-              </Link>
-            </Grid>
             <Button
               variant="outlined"
               size="small"
-              color="secondary"
+              color="primary"
               aria-label="add"
               className={classes.loginbutton}
               type="submit"

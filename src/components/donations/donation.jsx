@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { strings } from '../../constants';
-import { StaffForm } from "./"
+import { DonationForm } from "./"
 import { useSelector } from "react-redux"
 
 import { makeStyles } from "@material-ui/core";
@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography"
 // component
 // #############################################################################
 
-export default function Staff(props){
+export default function Donation(props){
   const { staff = {} } = props;
   const language = useSelector(state => state.language);
   const classes = useStyles();
@@ -84,7 +84,7 @@ export default function Staff(props){
         </Grid>
 
         {editMode && 
-          <StaffForm
+          <DonationForm
             open={editMode}
             staff={staff}
             closeForm={closeForm}
@@ -130,5 +130,5 @@ const useStyles = makeStyles(theme => ({
 // export the function component
 // #############################################################################
 
-export  { Staff};
+export  { Donation };
 

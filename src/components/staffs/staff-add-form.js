@@ -335,6 +335,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     justifyContent:"flex-start",
     borderWidth: 2,
+    borderRadius: 3,
   },
   officeItem:{
     height: "fit-content",

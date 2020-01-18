@@ -2,16 +2,16 @@ import { baseConstants } from "../constants";
 import { baseServices } from "../services";
 import { progressBarActions } from "./";
 import { snackBarActions } from "./";
+import { queries } from "../queries";
 
 //##############################################################################
 // base actions
 //##############################################################################
 
 export const baseActions = {
-
   donation,
   getDonations,
-  updateDonations,
+  updateDonation,
   deleteDonation,
 
   office,
@@ -28,7 +28,6 @@ export const baseActions = {
   getStaff,
   updateStaff,
   deleteStaff,
-
 };
 
 //##############################################################################
@@ -36,13 +35,9 @@ export const baseActions = {
 //##############################################################################
 
 function donation(data) {
-  const query = {
-    query: `INSERT INTO ibto.donations (name, address, city, phoneNumber) VALUES ("${data.name}", "${data.address}", "${data.city}", "${data.phoneNumber}");`,
-    secondQuery: `SELECT * FROM ibto.donations;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.addDonationQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -55,7 +50,7 @@ function donation(data) {
     );
   };
   function success(payload) {
-    return { type: baseConstants.ADD_TRANSACTION_SUCCESS, payload };
+    return { type: baseConstants.ADD_DONATION_SUCCESS, payload };
   }
 }
 
@@ -65,10 +60,9 @@ function donation(data) {
 //##############################################################################
 
 function getDonations() {
-  const query = { query: `SELECT * FROM ibto.donations;` };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET(query).then(
+    baseServices.GET(queries.getDonationQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -88,10 +82,10 @@ function getDonations() {
 // 
 //##############################################################################
 
-function updateDonations() {
+function updateDonation(data) {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT().then(
+    baseServices.PUT(queries.updateDonationQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -104,7 +98,7 @@ function updateDonations() {
     );
   };
   function success(payload) {
-    return { type: baseConstants.GET_USER_TRANSACTION_SUCCESS, payload };
+    return { type: baseConstants.UPDATE_DONATION_SUCCESS, payload };
   }
 }
 
@@ -112,10 +106,10 @@ function updateDonations() {
 // 
 //##############################################################################
 
-function deleteDonation(transactionId) {
+function deleteDonation(data) {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.DEL(transactionId).then(
+    baseServices.PUT(queries.deleteDonationQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
@@ -128,7 +122,7 @@ function deleteDonation(transactionId) {
     );
   };
   function success(payload) {
-    return { type: baseConstants.DELETE_TRANSACTION_SUCCESS, payload };
+    return { type: baseConstants.DELETE_DONATION_SUCCESS, payload };
   }
 }
 

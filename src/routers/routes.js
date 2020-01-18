@@ -72,20 +72,6 @@ export default [
     exact: true,
   },
   {
-    layout: lazy(() => import("pages/sign-up-page")),
-    path: '/sign-up',
-    label: 'Signup Page',
-    title: 'Signup Page',
-    exact: true,
-  },
-  {
-    layout: lazy(() => import("pages/register-page")),
-    path: '/register',
-    label: 'Register Page',
-    title: 'Register Page',
-    exact: true,
-  },
-  {
     layout: lazy(()=> import("components/error-pages/error-page")),
     path: '/',
     label: 'Error Page',

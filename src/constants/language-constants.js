@@ -159,6 +159,28 @@ const englishTexts = {
   StaffAddress: "Address",
   StaffFormCreateButton: "ADD NEW STAFF",
   StaffSaveButton: "Save CHANGEES",
+  StaffDeleteButton: "DELETE",
+
+  DonationsMoreButton: "MORE",
+  DonationsId: "ID",
+  DonationsBloodType: "BT",
+  DonationsDonor: "Donor",
+  DonationsOffice: "Office",
+  DonationsDate: "Date",
+  DonationsExpDate: "Ex-Date",
+  DonationsExaminer: "Examiner",
+  DonationsPhlebotomist: "Phlebotomist",
+  DonationsSerial: "Serial",
+  DonationsOther: "other",
+  DonationCreateButton: "ADD NEW DONATION",
+
+  DonationsSearchDonationOffice: "Search And Select From Donation Offices",
+  DonationsSearchLaboratory: "Search And Select From Laboratories",
+  DonationsSearchDonor: "Search And Select From Donors",
+  DonationsSearchPatient: "Search And Select From Patients",
+  DonationsSearchPhlebotomist: "Search And Select From Phlebotomist",
+  DonationsSearchExaminer: "Search And Select From Examiner",
+
 };
 
 //##############################################################################
@@ -323,6 +345,27 @@ const farsiTexts = {
   StaffAddress: "آدرس",
   StaffFormCreateButton: "افزودن کارمند جدید",
   StaffSaveButton: "ذخیره",
+  StaffDeleteButton: "حذف",
+
+  DonationsMoreButton: "بیشتر",
+  DonationsId: "شناسه",
+  DonationsBloodType: "گروه خونی",
+  DonationsDonor: "اهدا کننده",
+  DonationsOffice: "شعبه",
+  DonationsDate: "تاریخ",
+  DonationsExpDate: "تاریخ انقضا",
+  DonationsExaminer: "آزمایشگر",
+  DonationsPhlebotomist: "خون‌ گیرنده",
+  DonationsSerial: "سریال",
+  DonationsOther: "توضیحات بیشتر",
+  DonationCreateButton: "افزودن خون‌ اهدایی",
+
+  DonationsSearchDonationOffice: "Search And Select From Donation Offices",
+  DonationsSearchLaboratory: "Search And Select From Laboratories",
+  DonationsSearchDonor: "Search And Select From Donors",
+  DonationsSearchPatient: "Search And Select From Patients",
+  DonationsSearchPhlebotomist: "Search And Select From Phlebotomist",
+  DonationsSearchExaminer: "Search And Select From Examiner",
 };
 
 //##############################################################################

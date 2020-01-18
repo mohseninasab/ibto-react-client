@@ -1,1 +1,0 @@
-export const image = `https://jhowendoors.com/wp-content/uploads/2019/03/female-avatar-placeholder-320x320.png`;

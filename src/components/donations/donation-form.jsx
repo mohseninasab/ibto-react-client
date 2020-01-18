@@ -2,21 +2,25 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { strings } from '../../constants';
-import { useFormInput, filterArray } from "common-component-methods"
+import { useFormInput, useDirectFormInput, filterArray } from "common-component-methods"
 import { baseActions } from "actions"
+import DateFnsUtils from '@date-io/date-fns';
 
 import { makeStyles } from "@material-ui/core"
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
-
 import Chip from '@material-ui/core/Chip';
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from "@material-ui/icons/Check";
+
+
 
 
 // #############################################################################
@@ -32,41 +36,51 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // #############################################################################
 
 export default function DonationForm(props) {
-  const { staff = {}, open = false } = props;
+  const { donation = {}, open = false } = props;
   const dispatch = useDispatch();
+  const classes = useStyles();
+
   const language = useSelector(state => state.language);
   const offices = useSelector(state => state.offices);
-  const classes = useStyles();
+  const subjects = useSelector(state => state.subjects);
+  const staff = useSelector(state => state.staff);
+  
+  const searchQuery = useFormInput("");
   const [step, setStep] = useState(0)
-  const [office, setOffice] = useState(staff.office);
 
-  const firstName = useFormInput(staff.firstName);
-  const lastName = useFormInput(staff.lastName);
-  const employeeNumber = useFormInput(staff.employeeNumber);
-  const role = useFormInput(staff.role);
-  const city = useFormInput(staff.city);
-  const phoneNumber = useFormInput(staff.phoneNumber);
-  const address = useFormInput(staff.address);
-  const searchQuery = useFormInput(staff.searchQuery);
+  const date = useDirectFormInput(new Date(donation.date));
+  const expDate = useDirectFormInput(new Date(donation.expDate));
+  const serial = useFormInput(donation.serial);
+  const other = useFormInput(donation.other);
+
+  const [donor, setDonor] = useState(donation.donor);
+  const [patient, setPatient] = useState(donation.patient);
+  const [phlebotomist, setPhlebotomist] = useState(donation.phlebotomistId);
+  const [examiner, setExaminer] = useState(donation.examinerId);
+  const [donationOffice, setDonationOffice] = useState(donation.officeId);
+  const [laboratory, setLaboratory] = useState(donation.laboratory);
+  const [usable, setUsable] = useState(donation.usable)
   
   // ###########################################################################
   // languages
   // ###########################################################################
 
   const {
-    StaffFirstName,
-    StaffLastName,
-    StaffNumber,
-    StaffRole,
-    StaffPhoneNumber,
-    StaffAddress,
-    StaffCity,
-    StaffSaveButton,
-    StaffOffice,
+    DonationsSerial,
+    DonationsOther,
+    DonationsSearchDonationOffice,
+    DonationsSearchLaboratory,
+    DonationsSearchDonor,
+    DonationsSearchPatient,
+    DonationsSearchPhlebotomist,
+    DonationsSearchExaminer,
 
+    DonationCreateButton,
     officeFormCloseButton,
+    SubjectNationalCode,
     NextButton,
     backButton,
+    StaffDeleteButton
   } = strings[language].texts;
 
   // ###########################################################################
@@ -93,26 +107,39 @@ export default function DonationForm(props) {
   const add = (event) => {
     event.preventDefault();
     const data = { 
-      id: staff.id,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      employeeNumber: employeeNumber.value,
-      role: role.value,
-      office: office,
-      city: city.value, 
-      address: address.value,
-      phoneNumber: phoneNumber.value
+      id: donation.id,
+      date: new Date(date.value).toISOString().split("T")[0],
+      expDate: new Date(expDate.value).toISOString().split("T")[0],
+      serial: serial.value,
+      other: other.value,
+      usable: usable ? 1 : usable === null ? null : 0,
+      donor : donor ? donor : null,
+      patient: patient ? patient: null,
+      phlebotomist: phlebotomist ? phlebotomist: null,
+      examiner: examiner ? examiner: null,
+      donationOffice: donationOffice ? donationOffice: null,
+      laboratory: laboratory ? laboratory: null,
     };
-    dispatch(baseActions.updateStaff(data));
+    dispatch(baseActions.updateDonation(data));
     props.closeForm();
   }
-
 
   // ###########################################################################
   // filtered array
   // ###########################################################################
 
+  const handleDelete = () => {
+    dispatch(baseActions.deleteDonation({id: donation.id,}));
+    props.closeForm();
+  }
+
+  // ###########################################################################
+  // filtered array
+  // ###########################################################################
+
+  const filteredSubjects = filterArray(subjects, ["firstName", "lastName", "id", "nationalCode"], searchQuery.value);
   const filteredOffices = filterArray(offices, ["name", "city", "id"], searchQuery.value);
+  const filteredStaff = filterArray(staff, ["firstName", "lastName", "id", "employeeNumber"], searchQuery.value);
 
   // ###########################################################################
   // return of the component 
@@ -129,96 +156,80 @@ export default function DonationForm(props) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
+
+      {/* ################################################################## */}
         <DialogContent classes={{root: classes.contents}}>
         {step === 0 &&
-
         <form autoComplete="off" onSubmit={handleNext}>
           <Grid container spacing={1} className={classes.dialogContainer}>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffFirstName}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...firstName}
-            />
-          </Grid>
+            <Grid container item xs={12} md={6}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                <KeyboardDatePicker
+                  clearable
+                  margin="dense"
+                  variant='dialog'
+                  inputVariant="outlined"
+                  label={"date"}
+                  format="dd/MM/yyyy"
+                  { ...date }
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffLastName}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...lastName}
-            />
-          </Grid>
+            <Grid container item xs={12} md={6}>
+              <MuiPickersUtilsProvider classes={{root: classes.dateRoot}} utils={DateFnsUtils} >
+                <KeyboardDatePicker
+                  clearable
+                  margin="dense"
+                  variant='dialog'
+                  inputVariant="outlined"
+                  label={"Exp Date"}
+                  format="dd/MM/yyyy"
+                  { ...expDate }
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffNumber}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...employeeNumber}
-            />
-          </Grid>
+            <Grid container item xs={12} md={6}>
+              <TextField
+                required    
+                className={`${classes.textField} ${classes.dense}`}
+                label={DonationsSerial}
+                margin="dense"
+                variant="outlined"
+                type="text"
+                {...serial}
+              />
+            </Grid>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffRole}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...role}
-            />
-          </Grid>
+            <Grid container item xs={12} md={6}>
+              <TextField
+                //required    
+                className={`${classes.textField} ${classes.dense}`}
+                label={DonationsOther}
+                margin="dense"
+                variant="outlined"
+                type="text"
+                {...other}
+              />
+            </Grid>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffPhoneNumber}
-              margin="dense"
-              variant="outlined"
-              type="number"
-              {...phoneNumber}
-            />
-          </Grid>
+            <Grid container item xs={12} md={12}>
+              <Button
+                className={classes.selectButton}
+                variant={usable ? "contained" : "outlined"}
+                color={usable ? "primary" : "secondary"}
+                onClick={() => {setUsable(!usable)}}
+              >
+              {usable ? <CheckIcon/> : <CloseIcon/>} 
+              {usable ? "USABLE" : "UNUSABLE"} 
+              {usable ? <CheckIcon/> : <CloseIcon/>}
+              </Button>
+            </Grid>
 
-          <Grid container item xs={12} md={6}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffCity}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...city}
-            />
           </Grid>
-
-          <Grid container item xs={12}>
-            <TextField
-              required
-              className={`${classes.textField} ${classes.dense}`}
-              label={StaffAddress}
-              margin="dense"
-              variant="outlined"
-              type="text"
-              {...address}
-            />
-          </Grid>
-
+          <Grid container spacing={1}>  
             <Grid item container justify="flex-end" className={classes.buttonHolders}>  
                 <Button
                   className={classes.button}
@@ -231,22 +242,336 @@ export default function DonationForm(props) {
                 <Button
                   className={classes.button}
                   variant="contained"
+                  color="secondary"
+                  onClick={handleDelete}
+                >
+                  {StaffDeleteButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
                   color="primary"
                   type="submit"
                 >
                   {NextButton}
                 </Button>
-              </Grid>
-            
+            </Grid>
           </Grid>
+            
           </form>
         }
+
+        {/* ################################################################## */}
+
         {step === 1 && 
+          <Grid spacing={1} container className={classes.dialogContainer}> 
+            <Grid spacing={1} item container > 
+              <TextField
+                className={`${classes.textField} ${classes.dense}`}
+                label={DonationsSearchDonationOffice}
+                margin="dense"
+                variant="outlined"
+                type="text"
+                {...searchQuery}
+              />
+            </Grid>
+            <Grid container item alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredOffices.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={4} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={donationOffice === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={item.name}
+                    variant="outlined"
+                    onClick={() => {setDonationOffice(item.id)}}
+                    color={donationOffice === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={props.closeForm}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  {NextButton}
+                </Button>
+
+              </Grid>
+          </Grid>
+        }
+
+      {/* ################################################################## */}
+
+        {step === 2 && 
 
           <Grid spacing={1} container className={classes.dialogContainer}> 
             <TextField
               className={`${classes.textField} ${classes.dense}`}
-              label={StaffOffice}
+              label={DonationsSearchDonor}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...searchQuery}
+            />
+            <Grid container alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredSubjects.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={6} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={donor === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={`${item.firstName} ${item.lastName} - ${SubjectNationalCode}: ${item.nationalCode}`}
+                    variant="outlined"
+                    onClick={() => {setDonor(item.id)}}
+                    color={donor === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={props.closeForm}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  {NextButton}
+                </Button>
+
+              </Grid>
+          </Grid>
+        }
+
+        {/* ################################################################## */}
+
+        {step === 3 && 
+          <Grid spacing={1} container className={classes.dialogContainer}> 
+            <TextField
+              className={`${classes.textField} ${classes.dense}`}
+              label={DonationsSearchPatient}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...searchQuery}
+            />
+            <Grid container alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredSubjects.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={6} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={patient === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={`${item.firstName} ${item.lastName} - ${SubjectNationalCode}: ${item.nationalCode}`}
+                    variant="outlined"
+                    onClick={() => {setPatient(item.id)}}
+                    color={patient === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={props.closeForm}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  {NextButton}
+                </Button>
+
+              </Grid>
+          </Grid>
+        }
+
+      {/* ################################################################## */}
+
+        {step === 4 && 
+          <Grid spacing={1} container className={classes.dialogContainer}> 
+            <TextField
+              className={`${classes.textField} ${classes.dense}`}
+              label={DonationsSearchPhlebotomist}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...searchQuery}
+            />
+            <Grid container alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredStaff.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={6} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={phlebotomist === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={`${item.firstName} ${item.lastName} - ${SubjectNationalCode}: ${item.employeeNumber}`}
+                    variant="outlined"
+                    onClick={() => {setPhlebotomist(item.id)}}
+                    color={phlebotomist === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={props.closeForm}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  {NextButton}
+                </Button>
+
+              </Grid>
+          </Grid>
+        }
+
+      {/* ################################################################## */}
+
+        {step === 5 && 
+          <Grid spacing={1} container className={classes.dialogContainer}>
+            <TextField
+              className={`${classes.textField} ${classes.dense}`}
+              label={DonationsSearchExaminer}
+              margin="dense"
+              variant="outlined"
+              type="text"
+              {...searchQuery}
+            />
+            <Grid container alignContent="flex-start" spacing={1} className={classes.officesContainer}> 
+              {filteredStaff.map(item => {
+                return (
+                <Grid key={item.id} item xs={12} sm={6} md={6} className={classes.officeItem}>
+                  <Chip
+                    classes={{root: classes.chip}}
+                    icon={examiner === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    label={`${item.firstName} ${item.lastName} - ${SubjectNationalCode}: ${item.employeeNumber}`}
+                    variant="outlined"
+                    onClick={() => {setExaminer(item.id)}}
+                    color={examiner === item.id ? "secondary" : "primary"}
+                  />
+                </Grid>
+                )
+              })}
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.buttonHolders}>  
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={props.closeForm}
+                >
+                  {officeFormCloseButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                >
+                  {backButton}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  {NextButton}
+                </Button>
+
+              </Grid>
+          </Grid>
+        }
+
+      {/* ################################################################## */}
+
+          {step === 6 && 
+          <Grid spacing={1} container className={classes.dialogContainer}> 
+            <TextField
+              className={`${classes.textField} ${classes.dense}`}
+              label={DonationsSearchLaboratory}
               margin="dense"
               variant="outlined"
               type="text"
@@ -258,11 +583,11 @@ export default function DonationForm(props) {
                 <Grid key={item.id} item xs={12} sm={6} md={4} className={classes.officeItem}>
                   <Chip
                     classes={{root: classes.chip}}
-                    icon={office === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
+                    icon={laboratory === item.id ? <CheckCircleIcon/> : <CheckCircleOutlineIcon/> }
                     label={item.name}
                     variant="outlined"
-                    onClick={() => {setOffice(item.id)}}
-                    color={office === item.id ? "secondary" : "primary"}
+                    onClick={() => {setLaboratory(item.id)}}
+                    color={laboratory === item.id ? "secondary" : "primary"}
                   />
                 </Grid>
                 )
@@ -293,12 +618,16 @@ export default function DonationForm(props) {
                   color="primary"
                   onClick={add}
                 >
-                  {StaffSaveButton}
+                  {DonationCreateButton}
                 </Button>
+
               </Grid>
           </Grid>
-
         }
+
+      {/* ################################################################## */}
+
+
         </DialogContent>
       </Dialog>
     </React.Fragment>
@@ -316,10 +645,14 @@ const useStyles = makeStyles(theme => ({
       maxWidth: "60%"
     }
   },
+  dateRoot:{
+    backgroundColor: "red",
+  },
   chip:{
     width: "100%",
     justifyContent:"flex-start",
     borderWidth: 2,
+    borderRadius: 3,
   },
   officeItem:{
     height: "fit-content",
@@ -329,6 +662,8 @@ const useStyles = makeStyles(theme => ({
     minHeight: 310,
   },
   dialogContainer:{
+    minHeight: 244,
+    alignContent: "flex-start",
     maxHeight: "calc(100vh - 135px)",
     [theme.breakpoints.down("sm")]:{
       maxHeight: "calc(100vh - 135px)",
@@ -336,9 +671,13 @@ const useStyles = makeStyles(theme => ({
     }
   },
   officesContainer:{
-
-    minHeight: 177,
-    marginTop: 15,
+    minHeight: 192,
+    marginTop: 0,
+  },
+  addButton:{
+    margin: "5px 0",
+    height: 40,
+    width: "-webkit-fill-available",
   },
   button:{
     height: "fit-content",
@@ -352,7 +691,14 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     borderBottom: `1px dashed ${theme.palette.borderColor}`,
     margin: "10px 0px"
-  }
+  },
+  selectButton: {
+    width: "100%",
+    "& > span":{
+      display: "flex",
+      justifyContent: "space-between",
+    }
+  },
 }));
 
 // #############################################################################

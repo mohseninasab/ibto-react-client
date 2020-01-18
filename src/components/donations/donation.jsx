@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { strings } from '../../constants';
 import { DonationForm } from "./"
 import { useSelector } from "react-redux"
+import { parseDate } from "common-component-methods"
 
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -13,7 +14,7 @@ import Typography from "@material-ui/core/Typography"
 // #############################################################################
 
 export default function Donation(props){
-  const { staff = {} } = props;
+  const { donation = {} } = props;
   const language = useSelector(state => state.language);
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
@@ -23,7 +24,8 @@ export default function Donation(props){
   // ###########################################################################
 
   const {
-    transactionDetailButton
+    transactionDetailButton,
+    DonationsMoreButton,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -47,34 +49,45 @@ export default function Donation(props){
   // ###########################################################################
     
     return (
-      <Grid container item className={classes.root}>
+      <Grid container item className={`${classes.root} ${donation.usable === 1 ? classes.usable : donation.usable === 0 ? classes.unusable : classes.noValicate  }`}>
 
         <Grid container alignItems="center" item xs={12} md={1} lg={1} className={classes.items}>
-          <Typography variant="inherit" color="primary" noWrap>{staff.id}</Typography>
+          <Typography variant="inherit" color="primary" noWrap>{donation.id}</Typography>
+        </Grid>
+
+        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+          <Typography variant="inherit" color="secondary" noWrap>{donation.bloodType}</Typography>
         </Grid>
 
         <Grid container alignItems="center" item xs={12} md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" noWrap>{`${staff.firstName} ${staff.lastName}`}</Typography>
+          <Typography variant="inherit" noWrap>{`${donation.donorFirstName} ${donation.donorLastName}`}</Typography>
+        </Grid>
+        
+
+        <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
+          <Typography variant="inherit" noWrap>{donation.donationOfficeName}</Typography>
         </Grid>
 
         <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
-          <Typography variant="inherit" color="secondary" noWrap>{staff.employeeNumber}</Typography>
-        </Grid>
-
-        <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" noWrap>{staff.officeName}</Typography>
-        </Grid>
-
-        <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" color="secondary" noWrap>{staff.phoneNumber}</Typography>
+          <Typography variant="inherit" color="primary" noWrap>{parseDate(donation.date)}</Typography>
         </Grid>
 
         <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
-          <Typography variant="inherit" color="primary" noWrap>{staff.role}</Typography>
+          <Typography variant="inherit" color="secondary" noWrap>{parseDate(donation.expDate)}</Typography>
         </Grid>
 
-        <Grid container alignItems="center" item xs={12}  md={2} lg={2} className={classes.items}>
-          <Typography variant="inherit" noWrap>{`${staff.city} - ${staff.address}`}</Typography>
+        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+          <Typography variant="inherit" noWrap>{donation.examinerEmployeeNumber}</Typography>
+        </Grid>
+
+        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+          <Typography variant="inherit" noWrap>{donation.phlebotomistEmployeeNumber}</Typography>
+        </Grid>
+
+        <Grid container alignItems="center" justify="flex-end" item xs={12} md={1} lg={1} className={classes.items}>
+            <React.Fragment>
+              <Button onClick={openEditMode} variant="outlined" color="secondary">{DonationsMoreButton}</Button>
+            </React.Fragment>
         </Grid>
 
         <Grid container alignItems="center" justify="flex-end" item xs={12} md={1} lg={1} className={classes.items}>
@@ -86,7 +99,7 @@ export default function Donation(props){
         {editMode && 
           <DonationForm
             open={editMode}
-            staff={staff}
+            donation={donation}
             closeForm={closeForm}
           />
         }
@@ -102,19 +115,40 @@ export default function Donation(props){
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    border: `1px solid #00000000`,
+    border: `2px solid #00000000`,
+    marginBottom: 5,
     borderRadius: 3,
     transition: 'background 50ms',
     height: "fit-content",
+    border: `2px solid #FFFFFF10`,
     "&:hover":{
       background: theme.palette.backgrounds.tableRow,
-      border: `1px solid ${theme.palette.borderColor}`,
+      border: `2px solid ${theme.palette.borderColor}`,
     }
+  },
+  usable: {
+    background: "#00FF892B",
+    "&:hover": {
+      background: "#00FF8938"  
+    }
+  },
+  unusable: { 
+    background: "#FFA60052",
+    "&:hover": {
+      background: "#FFA6005E"  
+    }
+  },
+  noValicate: { 
+    background: "#FFFFFF0D",
+    "&:hover": {
+      background: "#FFFFFF1A"  
+    }
+    
   },
   items: {
     minHeight: 41,
     padding: "2px 5px",
-    fontSize: "0.9rem",
+    fontSize: "0.8rem",
     textTransform: "capitalize",
     overflow: "hidden",
     textOverflow: "ellipsis",

@@ -62,6 +62,7 @@ export default function StaffForm(props) {
     StaffAddress,
     StaffCity,
     StaffSaveButton,
+    StaffDeleteButton,
     StaffOffice,
 
     officeFormCloseButton,
@@ -104,6 +105,15 @@ export default function StaffForm(props) {
       phoneNumber: phoneNumber.value
     };
     dispatch(baseActions.updateStaff(data));
+    props.closeForm();
+  }
+
+  // ###########################################################################
+  // handle back
+  // ###########################################################################
+
+  const handleDelete = () => {
+    dispatch(baseActions.deleteStaff({id: staff.id}));
     props.closeForm();
   }
 
@@ -228,6 +238,16 @@ export default function StaffForm(props) {
                   {officeFormCloseButton}
                 </Button>
 
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleDelete}
+                >
+                  {StaffDeleteButton}
+                </Button>
+
                 <Button
                   className={classes.button}
                   variant="contained"
@@ -320,6 +340,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     justifyContent:"flex-start",
     borderWidth: 2,
+    borderRadius: 3,
   },
   officeItem:{
     height: "fit-content",

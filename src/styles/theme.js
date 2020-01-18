@@ -276,6 +276,12 @@ const LightTheme = createMuiTheme({
         direction: isRtl ? "right" : "left"
       }
     },
+    MuiPickersCalendarHeader:{
+      iconButton:{
+        backgroundColor: "#00000000",
+        margin: "0px 5px",
+      }
+    },
     makeStyles: {
       backgroundColor: "red",
       input: {
@@ -594,6 +600,12 @@ const darkTheme = createMuiTheme({
       root: {
         width: "100%"
       }
-    }
+    },
+    MuiPickersCalendarHeader:{
+      iconButton:{
+        backgroundColor: "#00000000",
+        margin: "0px 5px",
+      }
+    },
   }
 });

@@ -17,7 +17,7 @@ export function Donations(props){
   const classes = useStyles();
   const language = useSelector(state => state.language);
   const dispatch = useDispatch();
-  const staff = useSelector(state => state.staff);
+  const donations = useSelector(state => state.donations);
   const searchQuery = useFormInput("");
 
   // ###########################################################################
@@ -25,13 +25,14 @@ export function Donations(props){
   // ###########################################################################
 
   const {
-    StaffId,
-    StaffName,
-    StaffRole,
-    StaffNumber,
-    StaffOffice,
-    StaffPhoneNumber,
-    StaffAddress,
+    DonationsId,
+    DonationsBloodType,
+    DonationsDonor,
+    DonationsOffice,
+    DonationsDate,
+    DonationsExpDate,
+    DonationsExaminer,
+    DonationsPhlebotomist,
   } = strings[language].texts;
 
   // ###########################################################################
@@ -40,6 +41,7 @@ export function Donations(props){
 
   useEffect(() => {
     dispatch(baseActions.getStaff());
+    dispatch(baseActions.getSubjects());
     dispatch(baseActions.getDonations());
     dispatch(baseActions.getOffices());
   },[dispatch])
@@ -48,7 +50,7 @@ export function Donations(props){
   // filtered array
   // ###########################################################################
 
-  const filteredStaff = filterArray(staff, ["firstName", "lastName", "city", "address", "employeeNumber", "role"], searchQuery.value);
+  const filteredDonations = filterArray(donations, ["id", "serial", "donorFirstName", "donorLastName", "donorNationalCode", "patientFirstName", "patientLastName", "patientNationalCode", "examinerEmployeeNumber", "phlebotomistEmployeeNumber"], searchQuery.value);
 
   // ###########################################################################
   // render
@@ -73,22 +75,23 @@ export function Donations(props){
       </Grid>
       
       <Grid container alignItems="center" className={classes.header}>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffId}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffName}</Grid>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffNumber}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffOffice}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffPhoneNumber}</Grid>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}>{StaffRole}</Grid>
-        <Grid item xs={12} md={2} lg={2} className={classes.items}>{StaffAddress}</Grid>
-        <Grid item xs={12} md={1} lg={1} className={classes.items}></Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsId}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsBloodType}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{DonationsDonor}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}>{DonationsOffice}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsDate}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsExpDate}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsExaminer}</Grid>
+        <Grid item xs={12} md={1} lg={1} className={classes.items}>{DonationsPhlebotomist}</Grid>
+        <Grid item xs={12} md={2} lg={2} className={classes.items}/>
       </Grid>
 
       <Grid className={classes.rowsContainer}>
-        { filteredStaff.map(staff => (
+        { filteredDonations.map(donation => (
           <Donation
             language={language}
-            key={staff.id}
-            staff={staff}
+            key={donation.id}
+            donation={donation}
           />
         ))}
       </Grid>
@@ -107,7 +110,7 @@ const useStyles = makeStyles(theme => ({
   items:{
     padding: '2px 5px',
     color: theme.palette.text.primary,
-    fontSize: 14
+    fontSize: "0.8rem"
   },
   header:{
     backgroundColor: theme.palette.backgrounds.tableRow,

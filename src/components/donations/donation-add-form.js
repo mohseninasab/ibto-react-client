@@ -126,7 +126,6 @@ export default function DonationAddForm(props) {
       donationOffice,
       laboratory,
     };
-    console.log(data)
     dispatch(baseActions.donation(data));
     handleOpen();
   }

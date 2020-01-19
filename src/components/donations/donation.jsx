@@ -52,10 +52,10 @@ export default function Donation(props){
       <Grid container item className={`${classes.root} ${donation.usable === 1 ? classes.usable : donation.usable === 0 ? classes.unusable : classes.noValicate  }`}>
 
         <Grid container alignItems="center" item xs={12} md={1} lg={1} className={classes.items}>
-          <Typography variant="inherit" color="primary" noWrap>{donation.id}</Typography>
+          <Typography variant="inherit" noWrap>{donation.id}</Typography>
         </Grid>
 
-        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={`${classes.items} ${classes.bloodType}`}>
           <Typography variant="inherit" color="secondary" noWrap>{donation.bloodType}</Typography>
         </Grid>
 
@@ -157,6 +157,10 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       cursor: "default",
     },
+  },
+  bloodType: {
+    fontSize: "1.2rem",
+    fontWeight: 600,
   }
 }));
 

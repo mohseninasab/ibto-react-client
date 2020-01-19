@@ -131,6 +131,6 @@ const useStyles = makeStyles(theme => ({
   rowsContainer:{
     width: "100%",
     overflow: "auto",
-    height: "calc(100vh - 210px)"
+    height: "calc(100vh - 198px)"
   }
 }));

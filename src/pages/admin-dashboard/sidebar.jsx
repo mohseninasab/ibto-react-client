@@ -105,7 +105,7 @@ export function SideBar(props){
           onClick={handleRouting("/admin-dashboard/donations")}
           selected={selectedRoute === '/admin-dashboard/donations'}
         >
-          <ListItemIcon className={classes.iconColor} ><FavoriteIcon classes={{root: classes.red}}/></ListItemIcon>
+          <ListItemIcon className={classes.iconColor} ><FavoriteIcon classes={{root: `${classes.red} ${classes.heart}`}}/></ListItemIcon>
           <ListItemText className={classes.text} primary={adminDashboardSideBarBloodDonations} />
         </ListItem>
         
@@ -200,7 +200,17 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
+  "@keyframes blink-animation": {
+    '0%': { fontSize: "24px !important" },
+    '50%': { fontSize: "28px !important" },
+    '100%': { fontSize: "24px !important" },
+  },
+  heart: {
+    animation: "$blink-animation 2s infinite",
+    animationDelay: '0ms',
+  },
   drawerPaper: {
+    backgroundImage: "repeating-linear-gradient( 45deg, #00000000 0px, #00000000 5px, #002c461f 5px, #002c461f 10px)",
     width: drawerWidth,
   },
   list:{

@@ -68,7 +68,6 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         height: "100vh",
         width: "100%",
-        background: 'linear-gradient(132deg, #ffffff 10%, #f6ceff)',
     },
     svgImage: {
         flex: 1

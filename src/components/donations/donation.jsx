@@ -115,7 +115,6 @@ export default function Donation(props){
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    border: `2px solid #00000000`,
     marginBottom: 5,
     borderRadius: 3,
     transition: 'background 50ms',

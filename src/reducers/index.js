@@ -7,6 +7,7 @@ import { staff } from "./staff-reducer";
 import { progress } from "./progress-reducer";
 import { snackbar } from "./snackbar-reducer";
 import { donations } from "./donations-reducer";
+import { userDonations } from "./user-donations-reducer";
 import { offices } from "./offices-reducer";
 import { subjects } from "./subjects-reducer"
 
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   progress,
   snackbar,
   donations,
+  userDonations,
   offices,
   subjects,
   staff,

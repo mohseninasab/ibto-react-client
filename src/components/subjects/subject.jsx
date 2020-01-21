@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import { strings } from '../../constants';
 import { SubjectForm } from "./"
 import { useSelector } from "react-redux"
@@ -15,6 +16,7 @@ import Typography from "@material-ui/core/Typography"
 export default function Subject(props){
   const { subject = {} } = props;
   const language = useSelector(state => state.language);
+  const history = useHistory();
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
 
@@ -43,12 +45,20 @@ export default function Subject(props){
   }
 
   // ###########################################################################
+  // this function will redirect user to the user donations page
+  // ###########################################################################
+
+  const goToUserDonation = (event) => {
+    history.push(`/admin-dashboard/user-donations/${subject.nationalCode}`);
+  }
+
+  // ###########################################################################
   // render
   // ###########################################################################
     
     return (
-      <Grid container item className={classes.root}>
-
+      <Grid container item className={classes.root} >
+        <button className={classes.link} onClick={goToUserDonation} />
         <Grid container alignItems="center" item xs={12} md={1} lg={1} className={classes.items}>
           <Typography variant="inherit" color="primary" noWrap>{subject.id}</Typography>
         </Grid>
@@ -57,7 +67,7 @@ export default function Subject(props){
           <Typography variant="inherit" noWrap>{`${subject.firstName} ${subject.lastName}`}</Typography>
         </Grid>
 
-        <Grid container alignItems="center" item xs={12}  md={1} lg={1} className={classes.items}>
+        <Grid container alignItems="center" justify="center" item xs={12}  md={1} lg={1} className={classes.items}>
           <Typography variant="inherit" color="secondary" noWrap>{subject.bloodType}</Typography>
         </Grid>
 
@@ -105,6 +115,23 @@ const useStyles = makeStyles(theme => ({
     "&:hover":{
       background: theme.palette.backgrounds.tableRow,
       border: `1px solid ${theme.palette.borderColor}`,
+    }
+  },
+  link:{
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    background: "none",
+    border: "none",
+    outline: "none",
+    borderRadius: 3,
+    transition: "box-shadow 150ms",
+    boxShadow:"inset 0px 0px 0px 0px #41b8ff33",
+    "&:hover":{
+      cursor: "pointer",
+    },
+    "&:focus": {
+      boxShadow:"inset 0px 0px 0px 3px #41b8ff33"
     }
   },
   items: {

@@ -13,13 +13,14 @@ import { strings } from './constants';
 import { RTL, whichFont, whichDirection, initFontAwesomeIcons } from './helpers';
 import { initializeTheme } from './helpers';
 
-import "./font/index.css"
-import "./index.css"
+
+// impord the fonts for the farsi language
+import "./font/index.css";
+import "./index.css";
 
 // #############################################################################
 // the root component of the application
 // #############################################################################
-
 const App = props => {
   const themeSymbol = useSelector(state => state.theme)
   const language = useSelector(state => state.language);

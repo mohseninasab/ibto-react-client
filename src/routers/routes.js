@@ -28,6 +28,13 @@ export default [
         exact: false,
       },
       {
+        layout: lazy(() => import("pages/admin-dashboard/user-donations-page")),
+        path: '/admin-dashboard/user-donations/:donorNationalCode',
+        label: 'User Donations Page',
+        title: 'User Donations Page',
+        exact: false,
+      },
+      {
         layout: lazy(() => import("pages/admin-dashboard/subjects-page")),
         path: '/admin-dashboard/subjects',
         label: 'Subjects Page',

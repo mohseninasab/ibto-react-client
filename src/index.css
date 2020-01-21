@@ -8,6 +8,14 @@ body {
     height: 100vh;
 }
 
+/*input:-webkit-autofill {
+  background-color: transparent;
+  border-radius: 5px;
+  -webkit-text-fill-color: green;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}*/
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

@@ -130,6 +130,18 @@ const LightTheme = createMuiTheme({
       }
     },
 
+    MuiInputBase:{
+      input:{
+        "&:-webkit-autofill":{
+          backgroundColor: "transparent",
+          fontStyle: "italic",
+          fontWeight: 900,
+          "-webkit-text-fill-color": "#048CC4",
+          "-webkit-box-shadow": "0 0 0px 1000px #FFFFFF inset",
+        }
+      }
+    },
+
     // #########################################################################
 
     MuiIconButton: {
@@ -262,7 +274,7 @@ const LightTheme = createMuiTheme({
     },
     MuiInputLabel: {
       outlined: {
-        backgroundColor: "white"
+        backgroundColor: "transparent"
       }
     },
     MuiFormControl: {
@@ -420,7 +432,18 @@ const darkTheme = createMuiTheme({
     },
     MuiTextField: {
       root: {
-        direction: "ltr"
+        direction: "ltr",
+      }
+    },
+    MuiInputBase:{
+      input:{
+        "&:-webkit-autofill":{
+          backgroundColor: "transparent",
+          fontStyle: "italic",
+          fontWeight: 900,
+          "-webkit-text-fill-color": "#048CC4",
+          "-webkit-box-shadow": "0 0 0px 1000px #15202B inset",
+        }
       }
     },
 

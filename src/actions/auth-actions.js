@@ -22,7 +22,7 @@ function login(loginInfo) {
     dispatch(progressBarActions.stop());
     if(user) dispatch(success(user))
     if(user) localStorage.setItem("user", JSON.stringify(user));
-    history.push('./admin-dashboard');
+    history.push('./admin-dashboard/subjects');
   };
   function success(payload) {
     return { type: authConstants.USER_LOGIN_SUCCESS, payload };

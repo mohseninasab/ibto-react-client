@@ -174,6 +174,13 @@ const englishTexts = {
   DonationsOther: "other",
   DonationCreateButton: "ADD NEW DONATION",
 
+  DonationsDonorNationalCode: "Donor National Code",
+  DonationPatient: "Patient",
+  DonationPatientNationalCode: "Patient National Code",
+  DonationsExaminerEmployeeNumber: "Examiner Employee Number",
+  DonationsPhlebotomistEmployeeNumber: "Phlebotomist Employee Number",
+  DonationsLaboratory: "Laboratory",
+
   DonationsSearchDonationOffice: "Search And Select From Donation Offices",
   DonationsSearchLaboratory: "Search And Select From Laboratories",
   DonationsSearchDonor: "Search And Select From Donors",
@@ -188,7 +195,7 @@ const englishTexts = {
 //##############################################################################
 
 const farsiTexts = {
-  loginPageTitle: "آسان ‌ترنسفر",
+  loginPageTitle: "اهداء خون",
   loginPageInputPasswordPlaceHolder: "رمز عبور",
   loginPageInputEmailPlaceHolder: "ایمیل",
   loginPageQuestion: "کاربر جدید هستید؟",
@@ -359,6 +366,13 @@ const farsiTexts = {
   DonationsSerial: "سریال",
   DonationsOther: "توضیحات بیشتر",
   DonationCreateButton: "افزودن خون‌ اهدایی",
+
+  DonationsDonorNationalCode: "کد ملی اهدا کننده",
+  DonationPatient: "دریافت کننده",
+  DonationPatientNationalCode: "کد ملی دریافت کننده",
+  DonationsExaminerEmployeeNumber: "شماره پرسنلی آزمایشگر",
+  DonationsPhlebotomistEmployeeNumber: "شماره پرسنلی پزشک",
+  DonationsLaboratory: "آزمایشگاه",
 
   DonationsSearchDonationOffice: "Search And Select From Donation Offices",
   DonationsSearchLaboratory: "Search And Select From Laboratories",

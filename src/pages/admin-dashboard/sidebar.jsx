@@ -210,7 +210,7 @@ const useStyles = makeStyles(theme => ({
     animationDelay: '0ms',
   },
   drawerPaper: {
-    backgroundImage: "repeating-linear-gradient( 45deg, #00000000 0px, #00000000 5px, #002c461f 5px, #002c461f 10px)",
+    //backgroundImage: "repeating-linear-gradient( 45deg, #00000000 0px, #00000000 5px, #002c461f 5px, #002c461f 10px)",
     width: drawerWidth,
   },
   list:{

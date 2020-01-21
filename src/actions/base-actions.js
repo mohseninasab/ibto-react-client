@@ -28,6 +28,8 @@ export const baseActions = {
   getStaff,
   updateStaff,
   deleteStaff,
+
+  getUserDonations,
 };
 
 //##############################################################################
@@ -51,6 +53,29 @@ function donation(data) {
   };
   function success(payload) {
     return { type: baseConstants.ADD_DONATION_SUCCESS, payload };
+  }
+}
+
+//##############################################################################
+// this action will get the selected user all its donations
+//##############################################################################
+
+function getUserDonations(data) {
+  return dispatch => {
+    dispatch(progressBarActions.start());
+    baseServices.GET(queries.getUserDonationsQuery(data)).then(
+      response => {
+        dispatch(progressBarActions.stop());
+        dispatch(success(response));
+      },
+      error => {
+        dispatch(progressBarActions.stop());
+        dispatch(snackBarActions.snackBarError("Connection Error!"));
+      }
+    );
+  };
+  function success(payload) {
+    return { type: baseConstants.GET_USER_DONATIONS_SUCCESS, payload };
   }
 }
 
@@ -131,13 +156,9 @@ function deleteDonation(data) {
 //##############################################################################
 
 function office(data) {
-  const query = {
-    query: `INSERT INTO ibto.offices (name, address, city, phoneNumber) VALUES ("${data.name}", "${data.address}", "${data.city}", "${data.phoneNumber}");`,
-    secondQuery: `SELECT * FROM ibto.offices;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.addOfficeQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -162,7 +183,7 @@ function office(data) {
 function getOffices() {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET({query: "SELECT * FROM ibto.offices;"}).then(
+    baseServices.GET(queries.getOfficesQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -183,13 +204,9 @@ function getOffices() {
 //##############################################################################
 
 function updateOffice(data) {
-  const query = {
-    query: `UPDATE ibto.offices SET name = "${data.name}" ,address = "${data.address}", city = "${data.city}", phoneNumber = "${data.phoneNumber}" WHERE id = ${data.id} ;`,
-    secondQuery: `SELECT * FROM ibto.offices;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.updateOfficeQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -210,13 +227,9 @@ function updateOffice(data) {
 // 
 //##############################################################################
 function deleteOffice(data) {
-  const query = {
-    query: `DELETE FROM ibto.offices WHERE id = ${data.id}`,
-    secondQuery: `SELECT * FROM ibto.offices;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.DEL(query).then(
+    baseServices.DEL(queries.deleteOfficeQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
@@ -238,13 +251,9 @@ function deleteOffice(data) {
 //##############################################################################
 
 function subject(data) {
-  const query = {
-    query: `INSERT INTO ibto.subjects (firstName, lastName, bloodType, type, address, city, phoneNumber, nationalCode) VALUES ("${data.firstName}", "${data.lastName}", "${data.bloodType}", "${data.type}", "${data.address}", "${data.city}", "${data.phoneNumber}", ${data.nationalCode});`,
-    secondQuery: `SELECT * FROM ibto.subjects;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.addSubjectQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -268,7 +277,7 @@ function subject(data) {
 function getSubjects() {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET({query: "SELECT * FROM ibto.Subjects;"}).then(
+    baseServices.GET(queries.getSubjectsQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -289,13 +298,9 @@ function getSubjects() {
 //##############################################################################
 
 function updateSubject(data) {
-  const query = {
-    query: `UPDATE ibto.subjects SET firstName = "${data.firstName}", lastName = "${data.lastName}" , bloodType = "${data.bloodType}", type = "${data.type}", address = "${data.address}", city = "${data.city}", phoneNumber = "${data.phoneNumber}", nationalCode = ${data.nationalCode} WHERE id = ${data.id}`,
-    secondQuery: `SELECT * FROM ibto.subjects;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.updateSubjectQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -317,13 +322,9 @@ function updateSubject(data) {
 //##############################################################################
 
 function deleteSubject(data) {
-  const query = {
-    query: `DELETE FROM ibto.subjects WHERE id = ${data.id}`,
-    secondQuery: `SELECT * FROM ibto.subjects;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.DEL(query).then(
+    baseServices.DEL(queries.deleteSubjectQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));
@@ -340,19 +341,14 @@ function deleteSubject(data) {
   }
 }
 
-
 //##############################################################################
 // 
 //##############################################################################
 
 function staff(data) {
-  const query = {
-    query: `INSERT INTO ibto.staff (firstName, lastName, employeeNumber, phoneNumber, address, city, role, office) VALUES ("${data.firstName}", "${data.lastName}", "${data.employeeNumber}", "${data.phoneNumber}", "${data.address}", "${data.city}", "${data.role}", ${data.office});`,
-    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.addStaffQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -376,7 +372,7 @@ function staff(data) {
 function getStaff() {
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.GET({query: "SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;"}).then(
+    baseServices.GET(queries.getStaffQuery()).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(success(response));
@@ -397,13 +393,9 @@ function getStaff() {
 //##############################################################################
 
 function updateStaff(data) {
-  const query = {
-    query: `UPDATE ibto.staff SET firstName = "${data.firstName}", lastName = "${data.lastName}", employeeNumber = "${data.employeeNumber}", phoneNumber = "${data.phoneNumber}", address = "${data.address}", city = "${data.city}", role = "${data.role}", office = ${data.office} WHERE id = ${data.id};`,
-    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.PUT(query).then(
+    baseServices.PUT(queries.updateStaffQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Saved Successfully"));
@@ -425,13 +417,9 @@ function updateStaff(data) {
 //##############################################################################
 
 function deleteStaff(data) {
-  const query = {
-    query: `DELETE FROM ibto.staff WHERE id = ${data.id}`,
-    secondQuery: `SELECT id, firstName, lastName, employeeNumber, phoneNumber, address, city, role, officeName, officeId as office FROM ibto.staff INNER JOIN (SELECT id AS officeId, name AS officeName FROM ibto.offices) AS officeTable ON officeTable.officeId = ibto.staff.office;`,
-  };
   return dispatch => {
     dispatch(progressBarActions.start());
-    baseServices.DEL(query).then(
+    baseServices.DEL(queries.deleteStaffQuery(data)).then(
       response => {
         dispatch(progressBarActions.stop());
         dispatch(snackBarActions.snackBarSuccess("Deleted Successfully"));

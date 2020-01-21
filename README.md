@@ -69,54 +69,54 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ## Client Services
 
-Add new donation to the database
+Add new donation to the database:<br>
 `donation`
 
-Get all the donations from database
+Get all the donations from database:<br>
 `getDonations`
 
-Update the selecte donation 
+Update the selecte donation:<br> 
 `updateDonation`
 
-Delete the selected donation
+Delete the selected donation:<br>
 `deleteDonation`
 
-Add new office
+Add new office:<br>
 `office`
-Get all the offieces from database
+Get all the offieces from database:<br>
 `getOffices`
 
-Update the selected office
+Update the selected office:<br>
 `updateOffice`
 
-Delete the selected office from database
+Delete the selected office from database:<br>
 `deleteOffice`
 
-Add new donor or pateint to the database
+Add new donor or pateint to the database:<br>
 `subject`
 
-Get all the donors an pateints from the database
+Get all the donors an pateints from the database:<br>
 `getSubjects`
 
-Update the selected subject which are donors and pateints
+Update the selected subject which are donors and pateints:<br>
 `updateSubject`
 
-Delete the selected subject
+Delete the selected subject:<br>
 `deleteSubject`
 
-Add new staff the database
+Add new staff the database:<br>
 `staff`
 
-Get all the staff from database
+Get all the staff from database:<br>
 `getStaff`
 
-Update the selected staff data
+Update the selected staff data:<br>
 `updateStaff`
 
-Delete the selected staff from database
+Delete the selected staff from database:<br>
 `deleteStaff`
 
-Get all the donations from a selected donor
+Get all the donations from a selected donor:<br>
 `getUserDonations`
 
 

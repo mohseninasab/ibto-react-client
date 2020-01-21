@@ -67,7 +67,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-## Client Services
+### Client Services
+All the services are in this project directory:<br> 
+## src/actions/basic-actions.js
+
+All the queries are in this project directory:<br> 
+## src/queries/queries.js
 
 Add new donation to the database:<br>
 `donation`
@@ -119,8 +124,6 @@ Delete the selected staff from database:<br>
 
 Get all the donations from a selected donor:<br>
 `getUserDonations`
-
-
 
 
 

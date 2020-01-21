@@ -67,7 +67,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-### Client Services
+## Client Services
 All the services are in `src/actions/basic-actions.js` directory.<br> 
 
 All the queries are in `src/queries/queries.js` directory.<br>

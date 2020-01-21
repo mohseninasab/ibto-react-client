@@ -66,3 +66,63 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## Client Services
+
+Add new donation to the database
+`donation`
+
+Get all the donations from database
+`getDonations`
+
+Update the selecte donation 
+`updateDonation`
+
+Delete the selected donation
+`deleteDonation`
+
+Add new office
+`office`
+Get all the offieces from database
+`getOffices`
+
+Update the selected office
+`updateOffice`
+
+Delete the selected office from database
+`deleteOffice`
+
+Add new donor or pateint to the database
+`subject`
+
+Get all the donors an pateints from the database
+`getSubjects`
+
+Update the selected subject which are donors and pateints
+`updateSubject`
+
+Delete the selected subject
+`deleteSubject`
+
+Add new staff the database
+`staff`
+
+Get all the staff from database
+`getStaff`
+
+Update the selected staff data
+`updateStaff`
+
+Delete the selected staff from database
+`deleteStaff`
+
+Get all the donations from a selected donor
+`getUserDonations`
+
+
+
+
+
+
+
+

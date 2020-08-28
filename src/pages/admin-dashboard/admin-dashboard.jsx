@@ -43,8 +43,8 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    paddingTop: 75,
     padding: 10,
-    paddingTop: 76,
     height: '100vh',
     overflow: 'auto',
     backgroundColor:theme.palette.backgrounds.main,
